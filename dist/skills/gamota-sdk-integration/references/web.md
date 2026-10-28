@@ -1,4 +1,4 @@
-# Tích hợp cho game HTML / JavaScript (v6.2.12)
+# Tích hợp cho game HTML / JavaScript (v6.2.13)
 
 Áp dụng cho game web thuần và engine JS (Phaser, PixiJS…).
 
@@ -7,8 +7,8 @@
 Thêm vào `<head>` của trang chạy game, **đúng thứ tự**, cùng một tag:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gamota-tech/sdk-webjs-release@v6.2.12/dist/gmogame-sdk-ui-style.css">
-<script src="https://cdn.jsdelivr.net/gh/gamota-tech/sdk-webjs-release@v6.2.12/dist/gmogame-sdk-ui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gamota-tech/sdk-webjs-release@v6.2.13/dist/gmogame-sdk-ui-style.css">
+<script src="https://cdn.jsdelivr.net/gh/gamota-tech/sdk-webjs-release@v6.2.13/dist/gmogame-sdk-ui.js"></script>
 ```
 
 Sau khi load, SDK có ở `window.GMOGameSDK`. SDK tự tải ảnh / thư viện đi kèm theo đúng tag của file JS.
@@ -39,8 +39,8 @@ Sau khi load, SDK có ở `window.GMOGameSDK`. SDK tự tải ảnh / thư việ
       gmoApiKey: '…',
       gmoRefCode: '…',
       googleClientId: '…',
-      facebookAppId: '…',
-      adjustAppToken: '…',
+      facebookAppId: '…',     // không bắt buộc — bỏ nếu không dùng Facebook login
+      adjustAppToken: '…',    // không bắt buộc — bỏ nếu không dùng Adjust
       gtmId: 'GTM-…',
       gameId: '…',
       appVersion: '1.0.0',
@@ -59,8 +59,11 @@ const sdk = GMOGameSDK.getInstance();
 // Sau khi user chọn nhân vật — bắt buộc trước khi nạp
 sdk.setRoleWithRoleName('TenNhanVat', 'id-nhan-vat', 'Server 1', 'server-id');
 
-// Nút nạp
+// Nút nạp: mở màn chọn gói
 sdk.showPaymentView();
+
+// Nút mua 1 gói cụ thể: truyền v3_id của gói → mở thẳng màn Thanh toán
+sdk.showPaymentView('v3_id_cua_goi');
 
 // Nút đăng xuất / đổi tài khoản
 sdk.logout();

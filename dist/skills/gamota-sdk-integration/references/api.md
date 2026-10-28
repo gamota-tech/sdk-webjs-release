@@ -1,4 +1,4 @@
-# API và event — Gamota SDK H5 (v6.2.12)
+# API và event — Gamota SDK H5 (v6.2.13)
 
 Dùng chung cho mọi engine. Trong JS: `GMOGameSDK.getInstance().<hàm>()`. Unity gọi qua wrapper C# — xem bảng tương ứng trong [unity-webgl.md](unity-webgl.md).
 
@@ -22,15 +22,17 @@ Dùng chung cho mọi engine. Trong JS: `GMOGameSDK.getInstance().<hàm>()`. Uni
 | `logout()` | Đăng xuất. Tài khoản chơi ngay chưa cập nhật có thể thấy popup nhắc cập nhật trước |
 | `switchAccount()` | Đổi tài khoản |
 | `setRoleWithRoleName(characterName, characterId, serverName, serverId)` | Báo nhân vật đang chơi. Gọi mỗi khi vào game / đổi nhân vật |
-| `showPaymentView()` | Mở nạp (cần đã đăng nhập + đã set role). **Trong app GiG** SDK tự mở màn nạp native của GiG; ngoài GiG mở popup chọn gói của SDK |
+| `showPaymentView(v3Id?)` | Mở nạp (cần đã đăng nhập + đã set role). Không truyền `v3Id`: mở popup chọn gói. Truyền `v3Id` (id gói nạp `v3_id`, chuỗi): bỏ qua màn chọn gói, mở thẳng màn Thanh toán của gói đó; id sai / gói không bán thì SDK báo lỗi, không mở popup. **Trong app GiG** SDK tự mở màn nạp native của GiG, gửi `v3Id` cho app qua `package_id` |
 | `showUserInfoView()` | Mở trang thông tin tài khoản (tab mới) |
 | `showAccountLinkView()` | Mở màn liên kết tài khoản (Google / Facebook) |
+| `goLoginbyGiG()` | Mở thẳng đăng nhập GiG (popup gig.vn, cùng luồng nút "Đăng nhập bằng GiG"). Kết quả trả về qua event login success (`loginType: "login_gig"`); đã đăng nhập thì bắn lại login success. **Phải gọi trong sự kiện click** của người chơi, nếu không trình duyệt chặn popup |
+| `goSupportView()` | Mở tạo ticket hỗ trợ GiG. **Trong app GiG** app mở màn tạo ticket native (tự điền nhân vật / server); ngoài GiG mở trang ticket (link cấu hình từ server, cần đã đăng nhập). Phải gọi trong sự kiện click |
 | `openFanpage()` / `openGroup()` | Mở fanpage / group (link cấu hình từ server) |
 | `trackLevel(level)` | Gửi event `level_up` và `level_up_<level>` |
 | `logEvent(eventName, eventParamsJson)` | Gửi event tracking. `eventParamsJson`: chuỗi JSON object hoặc bỏ trống |
-| `getVersion()` | Version SDK, vd. `"v6.2.12"` |
+| `getVersion()` | Version SDK, vd. `"v6.2.13"` |
 
-Đăng nhập GiG và QR **không cần gọi hàm riêng** — nút nằm sẵn trong màn đăng nhập (nút QR chỉ hiện khi server bật cho game).
+Đăng nhập GiG và QR có nút sẵn trong màn đăng nhập (nút QR chỉ hiện khi server bật cho game). Game muốn tự đặt nút "Đăng nhập GiG" thì gọi `goLoginbyGiG()`.
 
 ## Event (SDK → game)
 

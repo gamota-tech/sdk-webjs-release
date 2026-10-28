@@ -28,8 +28,9 @@ function setRoleWithRoleName(characterName,characterId,serverName,serverId) {
   sdk.setRoleWithRoleName(characterName,characterId,serverName,serverId);
 }
 
-function showPaymentView() {
-  sdk.showPaymentView();
+// v3Id không bắt buộc: có thì mở thẳng màn Thanh toán của gói đó
+function showPaymentView(v3Id) {
+  sdk.showPaymentView(v3Id);
 }
 
 function showAccountLinkView() {
@@ -38,6 +39,14 @@ function showAccountLinkView() {
 
 function showUserInfoView() {
   sdk.showUserInfoView();
+}
+
+function goLoginbyGiG() {
+  sdk.goLoginbyGiG();
+}
+
+function goSupportView() {
+  sdk.goSupportView();
 }
 
 function openFanpage() {

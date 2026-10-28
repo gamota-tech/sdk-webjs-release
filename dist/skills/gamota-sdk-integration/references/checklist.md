@@ -1,12 +1,12 @@
-# Kiểm tra sau khi tích hợp (v6.2.12)
+# Kiểm tra sau khi tích hợp (v6.2.13)
 
 Chạy game qua web server (không `file://`), mở DevTools.
 
 ## Checklist
 
-- [ ] Console in `GMO Game SDK v6.2.12` và không có lỗi đỏ từ SDK.
+- [ ] Console in `GMO Game SDK v6.2.13` và không có lỗi đỏ từ SDK.
 - [ ] Console: `typeof window.GMOGameSDK` → `"function"`.
-- [ ] Tab Network: `gmogame-sdk-ui.js`, CSS (và `gmogame-script.js` với Unity) tải từ `sdk-webjs-release@v6.2.12` — cùng tag, không 404.
+- [ ] Tab Network: `gmogame-sdk-ui.js`, CSS (và `gmogame-script.js` với Unity) tải từ `sdk-webjs-release@v6.2.13` — cùng tag, không 404.
 - [ ] Mở game lần đầu: màn đăng nhập Gamota hiện (nếu `setAutoShowLoginDialog(true)`).
 - [ ] Đăng nhập thành công → game nhận event / `onLoginSuccess` với `accessToken`, `userId`, `userName`.
 - [ ] Tải lại trang: vẫn đăng nhập (nếu `setKeepLoginSession(true)`), game nhận lại event đăng nhập.

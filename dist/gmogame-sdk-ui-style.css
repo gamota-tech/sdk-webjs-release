@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -11,6 +11,22 @@ body {
 }
 img {
   max-width: 100%;
+}
+/* Chặn CSS kế thừa từ trang game (màu chữ, font, line-height, letter-spacing...): mọi UI của SDK nằm trong .gmogame-wrapper.
+   all: initial đưa thuộc tính kế thừa về mặc định, rồi đặt lại đúng giá trị SDK có trên trang không có CSS riêng (index.html) */
+.gmogame-wrapper {
+  all: initial;
+  display: block;
+  color: #000;
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 16px;
+  line-height: normal;
+}
+/* Game hay đặt button, input { font: inherit; color: inherit }: trả về mặc định trình duyệt.
+   Đặt ở đầu file để các rule riêng của SDK phía sau vẫn thắng */
+.gmogame-wrapper :where(button, input, select, textarea) {
+  font: revert;
+  color: revert;
 }
 .wrapper {
   /* background: #fff;
@@ -25,22 +41,230 @@ img {
   z-index: 9999; */
 }
 /* login view */
-.login {
-  max-width: 500px;
-  width: 100%;
-  margin: 0 auto;
+/* Màn login (giao diện SDK7): thẻ tối căn giữa màn hình, cao theo nội dung; chỉ áp dụng trong #gmogame-login */
+/* Khung ngoài màn login: thẻ login + khối 18+ bên dưới, cả cụm căn giữa màn hình.
+   Màn thấp thì thẻ co lại và cuộn, khối 18+ giữ nguyên */
+#gmogame-login.login-screen {
   position: fixed;
-  top: 0;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  background: #fff;
+  transform: translate(-50%, -50%);
   z-index: 999;
-}
-.login-wrapper {
-  display: flex;
-  height: 100dvh;
+  width: min(412px, calc(100% - 32px));
+  max-height: calc(100dvh - 32px);
   flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+#gmogame-login .login-card {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 0;
   overflow-y: auto;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px;
+  border-radius: 16px;
+  background: #191b1f;
+  color: #fff;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+}
+/* Ảnh 18+ dưới thẻ login (support.age18.image, ảnh dài ~6.5:1 đã gồm chữ): rộng 160px, giữ tỉ lệ gốc */
+#gmogame-login .login-age18 {
+  display: block;
+  flex-shrink: 0;
+  width: 160px;
+  max-width: 100%;
+  height: auto;
+  -webkit-user-drag: none;
+}
+#gmogame-login .login-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  line-height: 16px;
+  color: rgba(255, 255, 255, 0.8);
+}
+#gmogame-login .login-lang {
+  position: relative;
+}
+#gmogame-login .login-lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+#gmogame-login .login-lang .iti__flag,
+#gmogame-login .login-lang svg {
+  flex-shrink: 0;
+}
+#gmogame-login .login-lang-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 1;
+  min-width: 160px;
+  margin: 0;
+  padding: 4px;
+  list-style: none;
+  border-radius: 10px;
+  background: #262930;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+#gmogame-login .login-lang-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 13px;
+  line-height: 18px;
+  cursor: pointer;
+}
+#gmogame-login .login-lang-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+#gmogame-login .login-lang-item-name {
+  flex: 1;
+}
+#gmogame-login .login-lang-check {
+  visibility: hidden;
+  color: #7b74ff;
+}
+#gmogame-login .login-lang-item.is-active .login-lang-check {
+  visibility: visible;
+}
+#gmogame-login .login-version {
+  white-space: nowrap;
+}
+#gmogame-login .login-title {
+  padding: 14px 0 6px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+}
+#gmogame-login .login-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+#gmogame-login .login-btn-row {
+  display: flex;
+  gap: 10px;
+}
+#gmogame-login .login-btn-row .login-btn {
+  flex: 1 1 0;
+  min-width: 0;
+}
+#gmogame-login .login-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  height: 45px;
+  min-width: 44px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 12px;
+  background: #fff;
+  color: #000;
+  font-family: "Inter", "Nunito Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  text-align: left;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+#gmogame-login .login-btn:hover {
+  filter: brightness(0.94);
+}
+/* Ô icon cùng rộng 24px ở mọi nút để chữ các nút thẳng hàng (logo GiG rộng hơn icon khác) */
+#gmogame-login .login-btn .ico {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+}
+#gmogame-login .login-btn .ico svg {
+  width: 20px;
+  height: 20px;
+}
+#gmogame-login .login-btn .text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#gmogame-login .login-btn-gig {
+  background: #5249ff;
+  color: #fff;
+}
+#gmogame-login .login-btn-gig:hover {
+  filter: brightness(1.1);
+}
+#gmogame-login .login-btn-gig .ico img {
+  display: block;
+  width: 24px;
+  height: 12px;
+}
+#gmogame-login .login-btn-arrow {
+  flex-shrink: 0;
+}
+#gmogame-login .login-error {
+  color: #ff6b6b;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 18px;
+  padding-left: 23px;
+  background: url(images/ic-error.png) no-repeat 0 0 / 18px 18px;
+}
+/* Dòng điều khoản dưới các nút đăng nhập; link bấm mở popup như màn đăng ký */
+#gmogame-login .login-terms {
+  text-align: center;
+  font-size: 12px;
+  line-height: 18px;
+  color: rgba(255, 255, 255, 0.8);
+}
+#gmogame-login .login-terms a {
+  color: #6b6bfd;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+#gmogame-login .login-terms a:hover {
+  text-decoration: underline;
+}
+/* "Bạn không có tài khoản? Đăng ký" nằm dưới cùng thẻ, cách phần trên một khoảng */
+#gmogame-login .login-footer {
+  margin-top: 14px;
+  padding-top: 6px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  color: #69707d;
+}
+#gmogame-login .login-footer a {
+  color: #6b6bfd;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+#gmogame-login .login-footer a:hover {
+  text-decoration: underline;
 }
 .header {
   display: flex;
@@ -64,21 +288,6 @@ img {
   border: none;
   cursor: pointer;
 }
-/* Màn login: logo căn giữa, nút đóng ghim góc phải, tiêu đề sát dưới logo */
-.login .header {
-  position: relative;
-  justify-content: center;
-  padding: 52px 20px 0;
-  margin-bottom: 0;
-}
-.login .header .btn-close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-.login .content-wrapper .title {
-  margin-top: 12px;
-}
 .content-wrapper {
   flex: 1;
 }
@@ -89,529 +298,473 @@ img {
   line-height: 27.28px;
   margin-bottom: 33px;
 }
-.content-wrapper .login-form {
-  padding: 0 30px;
-}
-.login-form .form-group {
-  margin-bottom: 15px;
-}
-.login-form .form-group .floating-input {
-  position: relative;
-}
-.login-form .form-group input {
-  background: rgb(243, 243, 243);
-  border: 2px solid rgb(243, 243, 243);
-  border-radius: 8px;
-  padding: 16px;
-  color: #4f4f4f;
-  width: 100%;
-  height: 48px;
-  outline: none !important;
-  font-size: 16px;
-  font-weight: 700;
-  transition: border-color 0.3s ease;
-}
-.login-form .form-group input:focus {
-  border: 2px solid rgba(51, 51, 51, 1);
-  padding: 20px 16px 6px;
-}
-.login-form .form-group input:not(:placeholder-shown) {
-  padding: 20px 16px 6px;
-}
-.login-form .form-group label {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 16px;
-  text-transform: uppercase;
-  font-size: 12px;
-  font-weight: 700;
-  transition: top 0.3s ease, font-size 0.3s ease, color 0.3s ease;
-}
-.login-form .form-group input:focus + label,
-.login-form .form-group input:not(:placeholder-shown) + label {
-  top: 12px;
-  color: rgba(79, 79, 79, 1);
-  font-size: 9px;
-  font-weight: 600;
-  line-height: 12px;
-}
-.login-form .form-group .error-massage {
-  color: #eb5757;
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 18px;
-  padding-left: 23px;
-  background: url(images/ic-error.png) no-repeat 0 0 / 18px 18px;
-  margin: 5px 0;
-}
-.social-divider {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin: 24px 0 16px;
-  color: #828282;
-  font-size: 10px;
-  font-weight: 600;
-  line-height: 14px;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-.social-divider::before,
-.social-divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: #e0e0e0;
-}
-.social-login {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 32px;
-}
-.social-login .btn {
-  cursor: pointer;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  height: 40px;
-  padding: 0 12px;
-  color: #333;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 20px;
-  text-align: left;
-  transition: all 0.3s ease;
-}
-.social-login .btn:hover {
-  filter: brightness(0.96);
-}
-.social-login .btn .ico {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  width: 32px;
-}
-.social-login .btn .ico img {
-  display: block;
-  width: 32px;
-  height: 15px;
-}
-.social-login .btn.btn-gig {
-  border-color: #4f46e5;
-  background: linear-gradient(90deg, #4f46e5 0%, #5b4cf5 100%);
-  color: #fff;
-}
-.button-login {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  background: #2f80ed;
-  height: 48px;
-  border-radius: 8px;
-  color: white;
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 22px;
-  outline: none;
-  border: none;
-  margin-bottom: 16px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.button-login:hover {
-  filter: brightness(0.9);
-}
-.button-login:disabled {
-  filter: brightness(0.7);
-}
-.quick-action {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-}
-.login-form .quick-action {
-  margin-bottom: 8px;
-}
-.quick-action a {
-  color: #333;
-  font-weight: 700;
-  font-size: 12px;
-  line-height: 16px;
-  text-decoration: none;
-  cursor: pointer;
-}
-.quick-action a:hover {
-  text-decoration: underline;
-}
-.plus18 {
-  max-width: 214px;
-  margin: 0 auto;
-  padding-bottom: 30px;
-}
-
-.plus18 img {
-  max-width: 100%;
-}
 
 /* register view */
-.register {
-  max-width: 500px;
-  width: 100%;
-  margin: 0 auto;
+/* Màn đăng ký (giao diện SDK7): thẻ tối giữa màn hình giống màn login, giữ nguyên 4 bước */
+#gmogame-register.register,
+#gmogame-phone-verify.register {
   position: fixed;
-  top: 0;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  background: #fff;
+  transform: translate(-50%, -50%);
   z-index: 999;
+  width: min(412px, calc(100% - 32px));
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  border-radius: 16px;
+  background: #191b1f;
+  color: #fff;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  font-family: "Inter", "Nunito Sans", sans-serif;
 }
-.register-form {
-  width: 100%;
-  height: 100dvh;
-  padding: 25px;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-}
-.register-form .register-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: 35px;
-}
-.register-form .register-header .title {
+#gmogame-register .register-form,
+#gmogame-phone-verify .register-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  min-height: 360px;
+  padding: 24px;
 }
-.register-form .register-header .title .text {
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 16px;
-  color: #bdbdbd;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-.register-form .register-header .title .progress {
+/* Header: "<" (bước 2-4) | thanh tiến trình 4 đoạn | "X" */
+#gmogame-register .register-header,
+#gmogame-phone-verify .register-header {
+  position: relative;
   display: flex;
-  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  margin-bottom: 20px;
+}
+#gmogame-register .register-header .title .text,
+#gmogame-phone-verify .register-header .title .text {
+  display: none;
+}
+#gmogame-register .register-header .title .progress,
+#gmogame-phone-verify .register-header .title .progress {
+  display: flex;
   gap: 4px;
 }
-.register-form .register-header .title .progress .step-item {
+#gmogame-register .register-header .title .progress .step-item,
+#gmogame-phone-verify .register-header .title .progress .step-item {
+  display: block;
+  width: 28px;
+  height: 3px;
+  border-radius: 2px;
+  background: #4a4d55;
+}
+#gmogame-register .register-header .title .progress .step-item.active,
+#gmogame-phone-verify .register-header .title .progress .step-item.active {
+  background: #fff;
+}
+#gmogame-register .register-header .btn-prev,
+#gmogame-phone-verify .register-header .btn-prev,
+#gmogame-register .register-header .btn-close,
+#gmogame-phone-verify .register-header .btn-close {
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+#gmogame-register .register-header .btn-prev,
+#gmogame-phone-verify .register-header .btn-prev {
+  left: 0;
+}
+#gmogame-register .register-header .btn-close,
+#gmogame-phone-verify .register-header .btn-close {
+  right: 0;
+}
+#gmogame-register .register-header .btn-prev-icon,
+#gmogame-phone-verify .register-header .btn-prev-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+#gmogame-register .register-header .btn-prev-icon svg,
+#gmogame-phone-verify .register-header .btn-prev-icon svg {
   width: 20px;
-  height: 2px;
-  background: #d9d9d9;
-  display: block;
+  height: 20px;
 }
-.register-form .register-header .title .progress .step-item.active {
-  background: #2f80ed;
+#gmogame-register .register-header .btn-close svg,
+#gmogame-phone-verify .register-header .btn-close svg {
+  width: 14px;
+  height: 14px;
 }
-.register-form .register-header .btn-prev {
-  display: block;
+#gmogame-register .register-header svg path,
+#gmogame-phone-verify .register-header svg path {
+  stroke: rgba(255, 255, 255, 0.7);
 }
-.register-form .register-header .btn-prev-icon {
-  background: #f2f2f2;
-  width: 36px;
-  height: 36px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-}
-.register-form .register-header .btn-close {
-  background: #f2f2f2;
-  width: 36px;
-  height: 36px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-}
-
-.register-form .form-content {
+#gmogame-register .form-content,
+#gmogame-phone-verify .form-content {
   display: flex;
   flex: 1;
 }
-.register-form .form-content .reg-step {
+#gmogame-register .form-content .reg-step,
+#gmogame-phone-verify .form-content .reg-step {
   display: none;
-  flex-wrap: wrap;
   flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
   border: none;
-  flex: 1;
 }
-
-.register-form .form-content .reg-step h4 {
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 27px;
-  margin-bottom: 32px;
-}
-.register-form .form-content .reg-step h4 .description {
-  font-size: 14px;
-  margin-top: 8px;
-  line-height: 19px;
-  font-weight: 400;
-}
-
-.register-form .form-content .reg-step .form {
-  flex: 1;
-}
-
-.register-form .form-content .reg-step .form .form-group {
-  position: relative;
-  margin-bottom: 15px;
-}
-
-.register-form .form-content .reg-step .form .form-group input {
-  background: rgb(243, 243, 243);
-  border: 2px solid rgb(243, 243, 243);
-  font-family: "Nunito Sans", sans-serif;
-  border-radius: 8px;
-  padding: 16px;
-  color: #4f4f4f;
-  width: 100%;
-  height: 48px;
-  outline: none !important;
-  font-size: 16px;
-  font-weight: 700;
-  transition: border-color 0.3s ease;
-}
-.register-form .form-content .reg-step .form .form-group .iti {
-  width: 100%;
-}
-
-.register-form .form-content .reg-step .form .form-group select {
-  background: rgb(243, 243, 243);
-  border: 2px solid rgb(243, 243, 243);
-  border-radius: 8px;
-  padding: 13px 16px;
-  color: #4f4f4f;
-  width: 100%;
-  height: 48px;
-  outline: none !important;
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: 700;
-  transition: border-color 0.3s ease;
-  appearance: none;
-  text-transform: uppercase;
-}
-
-.register-form .form-content .reg-step .form .select-group.focused label {
-  opacity: 1;
-  top: 12px;
-  color: rgba(79, 79, 79, 1);
-  font-size: 9px;
+#gmogame-register .form-content .reg-step h4,
+#gmogame-phone-verify .form-content .reg-step h4 {
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 18px;
   font-weight: 600;
-  line-height: 12px;
+  line-height: 24px;
 }
-
-.register-form .form-content .reg-step .form .select-group.focused select {
-  padding: 20px 16px 6px;
-  font-size: 16px;
-  line-height: 21px;
+#gmogame-register .form-content .reg-step h4 .description,
+#gmogame-phone-verify .form-content .reg-step h4 .description {
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 18px;
+  color: rgba(255, 255, 255, 0.7);
 }
-
-.register-form .form-content .reg-step .form .select-group label {
-  opacity: 0;
+#gmogame-register .form-content .reg-step .form,
+#gmogame-phone-verify .form-content .reg-step .form {
+  flex: 1;
 }
-
-.register-form .form-content .reg-step .form .form-group input:focus {
-  border: 2px solid rgba(51, 51, 51, 1);
-  padding: 20px 16px 6px;
+#gmogame-register .form-content .reg-step .form .form-group,
+#gmogame-phone-verify .form-content .reg-step .form .form-group {
+  position: relative;
+  margin-bottom: 8px;
 }
-.register-form
-  .form-content
-  .reg-step
-  .form
-  .form-group
-  input[type="tel"]:focus {
-  border: 2px solid rgba(51, 51, 51, 1);
+/* Ô nhập nền tối, nhãn nổi: chưa nhập thì nằm giữa ô, đang nhập / đã có giá trị thì nhỏ lại ở trên */
+#gmogame-register .form-content .reg-step .form .form-group input,
+#gmogame-phone-verify .form-content .reg-step .form .form-group input {
+  width: 100%;
+  height: 52px;
   padding: 16px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: #25272c;
+  color: #fff;
+  color-scheme: dark;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  outline: none !important;
+  transition: border-color 0.2s ease;
 }
-
-.register-form .form-content .reg-step .form .form-group .iti input:focus {
-  border: none;
-  padding: 16px;
+#gmogame-register .form-content .reg-step .form .form-group input:focus,
+#gmogame-phone-verify .form-content .reg-step .form .form-group input:focus {
+  border-color: #5249ff;
 }
-
-.register-form
-  .form-content
-  .reg-step
-  .form
-  .form-group
-  input:not(:placeholder-shown) {
-  padding: 20px 16px 6px;
+#gmogame-register .form-content .reg-step .form .form-group input:focus,
+#gmogame-phone-verify .form-content .reg-step .form .form-group input:focus,
+#gmogame-register .form-content .reg-step .form .form-group input:not(:placeholder-shown),
+#gmogame-phone-verify .form-content .reg-step .form .form-group input:not(:placeholder-shown) {
+  padding: 22px 16px 6px;
 }
-
-.register-form
-  .form-content
-  .reg-step
-  .form
-  .form-group
-  input[type="tel"]:not(:placeholder-shown) {
-  padding: 16px;
+#gmogame-register .form-content .reg-step .form .form-group input[type="tel"],
+#gmogame-phone-verify .form-content .reg-step .form .form-group input[type="tel"],
+#gmogame-register .form-content .reg-step .form .form-group input[type="tel"]:focus,
+#gmogame-phone-verify .form-content .reg-step .form .form-group input[type="tel"]:focus,
+#gmogame-register .form-content .reg-step .form .form-group input[type="tel"]:not(:placeholder-shown),
+#gmogame-phone-verify .form-content .reg-step .form .form-group input[type="tel"]:not(:placeholder-shown) {
+  padding-top: 16px;
+  padding-bottom: 16px;
 }
-
-.register-form .form-content .reg-step .form .form-group label {
+#gmogame-register .form-content .reg-step .form .form-group label,
+#gmogame-phone-verify .form-content .reg-step .form .form-group label {
   position: absolute;
   top: 50%;
+  left: 17px;
   transform: translateY(-50%);
-  left: 16px;
-  text-transform: uppercase;
-  font-family: "Nunito Sans", sans-serif;
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: 700;
-  transition: top 0.3s ease, font-size 0.3s ease, color 0.3s ease;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  pointer-events: none;
+  transition: top 0.2s ease, font-size 0.2s ease;
 }
-
-.register-form .form-content .reg-step .form .form-group input:focus + label,
-.register-form
-  .form-content
-  .reg-step
-  .form
-  .form-group
-  input:not(:placeholder-shown)
-  + label {
-  top: 12px;
-  color: rgba(79, 79, 79, 1);
-  font-size: 9px;
-  font-weight: 600;
-  line-height: 12px;
+#gmogame-register .form-content .reg-step .form .form-group input:focus + label,
+#gmogame-phone-verify .form-content .reg-step .form .form-group input:focus + label,
+#gmogame-register .form-content .reg-step .form .form-group input:not(:placeholder-shown) + label,
+#gmogame-phone-verify .form-content .reg-step .form .form-group input:not(:placeholder-shown) + label {
+  top: 14px;
+  font-size: 11px;
+  line-height: 14px;
 }
-
-.register-form
-  .form-content
-  .reg-step
-  .form
-  .form-group
-  input[type="date"]::-webkit-calendar-picker-indicator {
+#gmogame-register .form-content .reg-step .form .form-group input[type="date"]::-webkit-calendar-picker-indicator,
+#gmogame-phone-verify .form-content .reg-step .form .form-group input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
   background: transparent;
-  bottom: 0;
   color: transparent;
   cursor: pointer;
-  height: auto;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: auto;
 }
-
 input[type="date"]::-webkit-datetime-edit-year-field:not([aria-valuenow]),
 input[type="date"]::-webkit-datetime-edit-month-field:not([aria-valuenow]),
 input[type="date"]::-webkit-datetime-edit-day-field:not([aria-valuenow]) {
   color: transparent;
 }
-
-.register-form .form-content .reg-step .form .form-group .error-massage {
-  color: #eb5757;
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 16px;
+/* Ô số điện thoại (intl-tel-input): mã vùng chữ trắng, danh sách quốc gia giữ nền sáng mặc định */
+#gmogame-register .form-content .reg-step .form .form-group .iti,
+#gmogame-phone-verify .form-content .reg-step .form .form-group .iti {
+  --iti-dialcode-color: #fff;
+  --iti-arrow-color: rgba(255, 255, 255, 0.7);
+  width: 100%;
+}
+#gmogame-register .form-content .reg-step .form .form-group .iti input:focus,
+#gmogame-phone-verify .form-content .reg-step .form .form-group .iti input:focus {
+  border-color: #5249ff;
+}
+#gmogame-register .form-content .reg-step .form .form-group .iti__dropdown-content,
+#gmogame-phone-verify .form-content .reg-step .form .form-group .iti__dropdown-content {
+  color: #333;
+}
+#gmogame-register .form-content .reg-step .form .form-group .error-massage,
+#gmogame-phone-verify .form-content .reg-step .form .form-group .error-massage {
   padding-left: 23px;
   background: url(images/ic-error.png) no-repeat 0 0 / 18px 18px;
-}
-
-.register-form .form-content .reg-step .form .password-required {
-  margin-bottom: 16px;
-}
-
-.register-form
-  .form-content
-  .reg-step
-  .form
-  .password-required
-  .password-required-item {
-  margin-bottom: 10px;
-  padding-left: 31px;
-  background: url(images/ic-invalid.png) no-repeat 0 0 / 18px 18px;
+  color: #ff6b6b;
   font-size: 12px;
-  color: rgba(130, 130, 130, 1);
-  line-height: 18px;
   font-weight: 600;
+  line-height: 18px;
 }
-
-.register-form
-  .form-content
-  .reg-step
-  .form
-  .password-required
-  .password-required-item.valid {
+#gmogame-register .form-content .reg-step .form .password-required,
+#gmogame-phone-verify .form-content .reg-step .form .password-required {
+  margin: 4px 0 12px;
+}
+#gmogame-register .form-content .reg-step .form .password-required .password-required-item,
+#gmogame-phone-verify .form-content .reg-step .form .password-required .password-required-item {
+  margin-bottom: 8px;
+  padding-left: 26px;
+  background: url(images/ic-invalid.png) no-repeat 0 0 / 18px 18px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+}
+#gmogame-register .form-content .reg-step .form .password-required .password-required-item.valid,
+#gmogame-phone-verify .form-content .reg-step .form .password-required .password-required-item.valid {
   background: url(images/ic-valid.png) no-repeat 0 0 / 18px 18px;
+  color: #6cdb00;
 }
-
-.register-form
-  .form-content
-  .reg-step
-  .form
-  .password-required
-  .password-required-item.error {
+#gmogame-register .form-content .reg-step .form .password-required .password-required-item.error,
+#gmogame-phone-verify .form-content .reg-step .form .password-required .password-required-item.error {
   background: url(images/ic-error.png) no-repeat 0 0 / 18px 18px;
-  color: rgba(235, 87, 87, 1);
+  color: #ff6b6b;
+}
+/* Nút Tiếp tục / Đăng ký: tím full chiều ngang giống nút GiG ở màn login */
+#gmogame-register .form-content .reg-step .action,
+#gmogame-phone-verify .form-content .reg-step .action {
+  margin-top: 16px;
+}
+#gmogame-register .form-content .reg-step .action .btn-next,
+#gmogame-phone-verify .form-content .reg-step .action .btn-next {
+  width: 100%;
+  height: 45px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 12px;
+  background: #5249ff;
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: filter 0.2s ease, opacity 0.2s ease;
+}
+#gmogame-register .form-content .reg-step .action .btn-next:hover,
+#gmogame-phone-verify .form-content .reg-step .action .btn-next:hover {
+  filter: brightness(1.1);
+}
+/* Bước 4: chưa tick đủ điều khoản thì nút mờ (vẫn bấm được để hiện thông báo, giống Android) */
+#gmogame-register .form-content .reg-step .action .btn-next.is-dimmed,
+#gmogame-phone-verify .form-content .reg-step .action .btn-next.is-dimmed {
+  opacity: 0.4;
+}
+/* Màn xác thực số điện thoại (GMOGamePhoneVerifyUI) dùng chung style màn đăng ký ở trên; dòng gửi lại OTP */
+#gmogame-phone-verify .phone-verify-resend {
+  margin-top: 4px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  text-align: center;
+}
+#gmogame-phone-verify .phone-verify-resend span {
+  color: #6b6bfd;
+  font-weight: 700;
+}
+#gmogame-phone-verify .phone-verify-resend a {
+  color: #6b6bfd;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: underline;
+}
+#gmogame-phone-verify .form-content .reg-step .action .btn-next:disabled {
+  cursor: default;
 }
 
-.register-form .form-content .reg-step .action {
+/* Ảnh quà tặng màn xác thực SĐT (sdk/open enable_gift_image = "on" + gift_image_url): dưới ô nhập, trên nút Tiếp tục;
+   rộng bằng form, cao tối đa 200px, hiện trọn ảnh theo tỉ lệ gốc */
+#gmogame-phone-verify .phone-verify-gift {
+  margin-top: 12px;
+}
+#gmogame-phone-verify .phone-verify-gift img {
+  display: block;
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 8px;
+  -webkit-user-drag: none;
+}
+
+/* Ô mật khẩu có nút con mắt ẩn / hiện */
+#gmogame-register .form-content .reg-step .form .form-group-password input {
+  padding-right: 48px;
+}
+#gmogame-register .btn-toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
   display: flex;
-  justify-content: end;
+  padding: 4px;
+  border: none;
+  background: transparent;
+  color: #9097a6;
+  cursor: pointer;
 }
-
-.register-form .form-content .reg-step .action .btn-next {
+#gmogame-register .btn-toggle-password .icon-eye-on,
+#gmogame-register .btn-toggle-password.is-visible .icon-eye-off {
+  display: none;
+}
+#gmogame-register .btn-toggle-password.is-visible .icon-eye-on {
+  display: block;
+}
+#gmogame-register .phone-note {
+  margin: -2px 0 8px;
+  color: #69707d;
+  font-size: 11px;
+  line-height: 14px;
+}
+/* Đồng ý điều khoản (bước 4) */
+#gmogame-register .terms {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+#gmogame-register .terms-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: #9097a6;
+  font-size: 12px;
+  line-height: 18px;
+  cursor: pointer;
+}
+#gmogame-register .terms-item input {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  margin: 1px 0 0;
+  accent-color: #735cff;
+  cursor: pointer;
+}
+#gmogame-register .terms-link {
+  color: #fff;
+  text-decoration: none;
+  cursor: pointer;
+}
+#gmogame-register .terms-link:hover {
+  text-decoration: underline;
+}
+/* Bước 5: xác thực SMS */
+#gmogame-register .sms-box {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 12px;
+  background: #25272c;
+}
+#gmogame-register .sms-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 1);
-  width: 72px;
-  height: 72px;
-  border-radius: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  gap: 12px;
 }
-
-.register-form .form-content .reg-step .action .btn-next.active,
-.register-form .form-content .reg-step .action .btn-next:hover {
-  background: rgba(47, 128, 237, 1);
+#gmogame-register .sms-icon {
+  display: flex;
+  flex-shrink: 0;
+  color: #6b6bfd;
 }
-
-.register-form .form-content .reg-step .action .btn-next.active svg path,
-.register-form .form-content .reg-step .action .btn-next:hover svg path {
-  stroke: #fff;
+#gmogame-register .sms-text {
+  flex: 1;
+  min-width: 0;
 }
-
-.floating-btn {
-  position: absolute;
-  bottom: 10%;
-  left: -6px;
-  transition: all ease 0.5s;
-  z-index: 999;
-  width: 48px;
-  height: 48px;
+#gmogame-register .sms-label {
+  color: #9097a6;
+  font-size: 11px;
+  line-height: 14px;
+  text-transform: uppercase;
 }
-
-.floating-btn svg {
-  width: 48px;
-  height: 48px;
+#gmogame-register .sms-value {
+  margin-top: 2px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 26px;
+  word-break: break-all;
 }
-
-.floating-btn.active {
-  left: 14px;
-  display: block;
+#gmogame-register .sms-copy {
+  display: flex;
+  flex-shrink: 0;
+  padding: 6px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #9097a6;
+  cursor: pointer;
+}
+#gmogame-register .sms-copy:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+#gmogame-register .sms-copied {
+  margin-top: 8px;
+  color: #4cd08a;
+  font-size: 12px;
+  text-align: center;
+}
+#gmogame-register .sms-note {
+  margin-top: 12px;
+  color: #9097a6;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+}
+#gmogame-register .sms-message {
+  margin-top: 8px;
+  color: #f2994a;
+  font-size: 12px;
+  text-align: center;
+}
+#gmogame-register .sms-countdown {
+  margin-top: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 13px;
+  text-align: center;
+}
+#gmogame-register .sms-countdown span {
+  color: #6b6bfd;
+  font-weight: 700;
 }
 
 .floating-btn-main {
@@ -626,28 +779,7 @@ input[type="date"]::-webkit-datetime-edit-day-field:not([aria-valuenow]) {
   touch-action: none;
 }
 
-/* Nút nổi 18+ (GMOGameFloating18PlusUI): mép trái, giữa nút chính (top 10%) và nút hỗ trợ (bottom 10%) */
-.floating-18plus {
-  position: absolute;
-  top: calc(50% - 24px);
-  left: 0;
-  z-index: 999;
-  width: 48px;
-  height: 48px;
-  cursor: pointer;
-  touch-action: none;
-  user-select: none;
-  -webkit-user-select: none;
-  transition: 0.3s ease-in-out left;
-}
-.floating-18plus img,
-.floating-18plus svg {
-  display: block;
-  width: 48px;
-  height: 48px;
-  pointer-events: none;
-  -webkit-user-drag: none;
-}
+/* Dòng nhắc 18+ (dùng cho badge 18+ của nút nổi chính, xem .floating-btn-main-message bên dưới) */
 .floating-18plus-message {
   position: absolute;
   z-index: 999;
@@ -685,6 +817,42 @@ input[type="date"]::-webkit-datetime-edit-day-field:not([aria-valuenow]) {
   height: 48px;
 }
 
+/* Badge 18+ trên nút nổi chính: đè lên góc dưới của icon chính (như thiết kế). Icon chính và ảnh 18 của server
+   có viền trong suốt nên badge đặt lấn vào trong khung 48px; nút mép phải thì lật sang góc dưới trái.
+   Ảnh 25x25 (bằng chiều cao dòng nhắc). Badge chỉ để hiển thị: bấm vào cũng mở menu như bấm nút */
+.floating-btn-main img.floating-btn-badge-18 {
+  position: absolute;
+  right: -4px;
+  bottom: 0;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  z-index: 1;
+  -webkit-user-drag: none;
+}
+.floating-btn-main.is-right img.floating-btn-badge-18 {
+  right: auto;
+  left: -4px;
+}
+/* Dòng nhắc 18+ của nút chính (như thiết kế): thanh cao cố định 25px bằng icon 18, đầu bo tròn nằm dưới badge
+   (badge đè lên, dòng bắt đầu từ tâm badge), chữ nhỏ 2 dòng; chừa nửa badge + khoảng cách ở phía có badge */
+.floating-18plus-message.floating-btn-main-message {
+  z-index: 998;
+  width: 230px;
+  max-width: calc(100vw - 40px);
+  box-sizing: border-box;
+  height: 25px;
+  min-height: 25px;
+  padding: 0 14px 0 22px;
+  border-radius: 13px;
+  background: #00000033;
+  font-size: 9px;
+  line-height: 10px;
+}
+.floating-18plus-message.floating-btn-main-message.is-right {
+  padding: 0 22px 0 14px;
+}
+
 .floating-btn-main.active {
   left: 14px;
   display: block;
@@ -706,73 +874,6 @@ input[type="date"]::-webkit-datetime-edit-day-field:not([aria-valuenow]) {
   justify-content: center;
   height: 100%;
 }
-/* modal support */
-#gmogame-support .modal-content {
-  position: relative;
-  max-width: 330px;
-  width: 100%;
-  border-radius: 15px;
-  background: #fff;
-  padding: 20px;
-}
-
-#gmogame-support .modal-content .modal-title {
-  font-size: 19px;
-  font-weight: bold;
-  line-height: 22px;
-  margin-bottom: 12px;
-}
-
-#gmogame-support .modal-content .modal-description {
-  font-size: 14px;
-  line-height: 20px;
-  margin-bottom: 18px;
-  color: rgba(33, 33, 33, 1);
-}
-
-#gmogame-support .modal-content .list-btn {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-#gmogame-support .modal-content .list-btn button {
-  background: rgba(243, 243, 249, 1);
-  border-radius: 12px;
-  height: 59px;
-  padding: 15px 19px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  border: none;
-}
-
-#gmogame-support .modal-content .list-btn svg {
-  width: 24px;
-  height: 24px;
-}
-
-#gmogame-support .modal-content .list-btn span {
-  color: rgba(63, 140, 255, 1);
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 28px;
-}
-
-#gmogame-support .modal-content .close-modal {
-  position: absolute;
-  bottom: -40px;
-  left: 50%;
-  transform: translateX(-50%);
-  cursor: pointer;
-}
-
-#gmogame-support .modal-content .close-modal span {
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
-}
-
 /* modal user */
 #gmogame-user .modal-content {
   position: relative;
@@ -842,52 +943,74 @@ input[type="date"]::-webkit-datetime-edit-day-field:not([aria-valuenow]) {
 
 /* modal xác thực */
 
+/* Xác thực tài khoản (giao diện SDK7): cùng kiểu màn Đổi tài khoản / alert */
 #gmogame-verify .modal-content {
   position: relative;
-  max-width: 330px;
-  width: 100%;
-  border-radius: 15px;
-  background: #fff;
-  padding: 20px;
+  width: min(340px, calc(100% - 32px));
+  border-radius: 16px;
+  background: #191b1f;
+  padding: 24px;
+  color: #fff;
   text-align: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
 }
-
+#gmogame-verify .modal-content > svg {
+  display: block;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+}
 #gmogame-verify .modal-content .modal-title {
-  margin-top: 16px;
-  margin-bottom: 13px;
-  font-size: 19px;
-  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 16px;
   line-height: 22px;
+  font-weight: 700;
+  color: #fff;
 }
-
 #gmogame-verify .modal-content .modal-description {
+  margin-bottom: 20px;
   font-size: 14px;
   line-height: 20px;
-  margin-bottom: 18px;
   font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
 }
-
+/* Ảnh quà tặng (sdk/open enable_gift_image = "on" + gift_image_url): dưới mô tả, trên các nút; cao tối đa 200px, hiện trọn ảnh */
+#gmogame-verify .modal-content .verify-gift {
+  margin-bottom: 20px;
+}
+#gmogame-verify .modal-content .verify-gift img {
+  display: block;
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 8px;
+  -webkit-user-drag: none;
+}
 #gmogame-verify .modal-content .list-btn {
   display: flex;
-  gap: 15px;
+  gap: 8px;
 }
 #gmogame-verify .modal-content .list-btn button {
   flex: 1;
-  background: rgba(243, 243, 249, 1);
-  color: rgba(63, 140, 255, 1);
-  font-size: 16px;
-  line-height: 28px;
-  font-weight: 600;
+  height: 40px;
+  padding: 0 12px;
   border: none;
+  outline: none;
   border-radius: 8px;
-  padding: 8px;
+  background: #2a2d33;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: "Nunito Sans", sans-serif;
+  cursor: pointer;
 }
-
+#gmogame-verify .modal-content .list-btn button:hover {
+  filter: brightness(1.1);
+}
 #gmogame-verify .modal-content .list-btn button.active {
-  background: rgba(63, 140, 255, 1);
+  background: #5249ff;
   color: #fff;
 }
-
 #gmogame-popup-image .modal-content {
   max-width: 330px;
   width: 100%;
@@ -1044,88 +1167,115 @@ input[type="date"]::-webkit-datetime-edit-day-field:not([aria-valuenow]) {
   height: 100%;
 }
 
+/* Alert (giao diện SDK7): thẻ tối, icon ic-alert.svg, 1 nút tím hoặc 2 nút chia đôi (huỷ xám / xác nhận tím) */
 #sdk-alert .alert-content {
   position: relative;
-  max-width: 330px;
-  width: 100%;
-  border-radius: 15px;
-  background: #fff;
-  padding: 20px;
-  color: #000;
+  width: min(340px, calc(100% - 32px));
+  border-radius: 16px;
+  background: #191b1f;
+  padding: 24px;
+  color: #fff;
   text-align: center;
   font-family: "Nunito Sans", sans-serif;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+}
+#sdk-alert .alert-content .alert-icon {
+  display: block;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
 }
 #sdk-alert .alert-content h2 {
-  font-size: 18px;
-  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
 }
 #sdk-alert .alert-content p {
-  font-size: 13px;
-  margin-bottom: 15px;
-}
-#sdk-alert .alert-content button {
-  background: #2f80ed;
-  color: #fff;
-  padding: 5px 15px;
-  border: none;
-  outline: none;
-  border-radius: 8px;
+  font-size: 14px;
+  line-height: 20px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 20px;
+  word-break: break-word;
 }
 #sdk-alert .alert-content .alert-actions {
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  gap: 8px;
+}
+#sdk-alert .alert-content button {
+  flex: 1;
+  height: 40px;
+  padding: 0 12px;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  background: #5249ff;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: "Nunito Sans", sans-serif;
+  cursor: pointer;
+}
+#sdk-alert .alert-content button:hover {
+  filter: brightness(1.1);
 }
 #sdk-alert .alert-content button.alert-btn-cancel {
-  background: #f2f2f2;
-  color: #333;
+  background: #2a2d33;
+  color: #fff;
 }
 
 /* modal xác thực */
 
+/* Popup text từ server (sdk/popup, alert.native) — giao diện SDK7: cùng kiểu màn Xác thực / Đổi tài khoản, không có icon */
 #gmogame-popup-text .modal-content {
   position: relative;
-  max-width: 330px;
-  width: 100%;
-  border-radius: 15px;
-  background: #fff;
-  padding: 20px;
+  width: min(340px, calc(100% - 32px));
+  border-radius: 16px;
+  background: #191b1f;
+  padding: 24px;
+  color: #fff;
   text-align: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
 }
-
 #gmogame-popup-text .modal-content .modal-title {
-  margin-top: 16px;
-  margin-bottom: 13px;
-  font-size: 19px;
-  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 16px;
   line-height: 22px;
+  font-weight: 700;
+  color: #fff;
 }
-
 #gmogame-popup-text .modal-content .modal-description {
+  margin-bottom: 20px;
   font-size: 14px;
   line-height: 20px;
-  margin-bottom: 18px;
   font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
+  word-break: break-word;
 }
-
 #gmogame-popup-text .modal-content .list-btn {
   display: flex;
-  gap: 15px;
+  gap: 8px;
 }
 #gmogame-popup-text .modal-content .list-btn button {
   flex: 1;
-  background: rgba(243, 243, 249, 1);
-  color: rgba(63, 140, 255, 1);
-  font-size: 16px;
-  line-height: 28px;
-  font-weight: 600;
+  height: 40px;
+  padding: 0 12px;
   border: none;
+  outline: none;
   border-radius: 8px;
-  padding: 8px;
+  background: #2a2d33;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: "Nunito Sans", sans-serif;
+  cursor: pointer;
 }
-
+#gmogame-popup-text .modal-content .list-btn button:hover {
+  filter: brightness(1.1);
+}
 #gmogame-popup-text .modal-content .list-btn button.active {
-  background: rgba(63, 140, 255, 1);
+  background: #5249ff;
   color: #fff;
 }
 
@@ -1286,659 +1436,604 @@ input[type="date"]::-webkit-datetime-edit-day-field:not([aria-valuenow]) {
   background: #3f8cff;
 }
 
-/* modal switch account */
+/* Màn liên kết tài khoản (giao diện SDK7): lớp phủ tối + thẻ tối giữa màn hình cùng kích thước thẻ login.
+   Chỉ áp trong #gmogame-link-account: các class .update-account / .update-account-form / .button-action dùng chung với màn liên kết Email */
+#gmogame-link-account.update-account {
+  top: 0;
+  left: 0;
+  transform: none;
+  max-width: none;
+  width: 100%;
+  height: 100dvh;
+  background: rgba(13, 20, 36, 0.6);
+}
+#gmogame-link-account .update-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(412px, calc(100% - 32px));
+  height: auto;
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  padding: 24px;
+  border-radius: 16px;
+  background: #191b1f;
+  color: #fff;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+}
+/* Header: [trống | tiêu đề giữa | đóng] */
+#gmogame-link-account .header {
+  display: grid;
+  grid-template-columns: 32px 1fr 32px;
+  align-items: center;
+  padding: 0;
+  margin-bottom: 16px;
+}
+#gmogame-link-account .header .link-account-title {
+  grid-column: 2;
+  text-align: center;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 700;
+  color: #fff;
+}
+#gmogame-link-account .header .btn-close {
+  grid-column: 3;
+  width: 32px;
+  height: 32px;
+  background: none;
+}
+#gmogame-link-account .header .btn-close svg {
+  width: 14px;
+  height: 14px;
+}
+#gmogame-link-account .header .btn-close path {
+  stroke: #9097a6;
+}
+#gmogame-link-account .update-account-form {
+  padding: 0;
+}
+#gmogame-link-account .update-account-form .form-group {
+  margin-bottom: 12px;
+}
+#gmogame-link-account .update-account-form .form-group input,
+#gmogame-link-account .update-account-form .form-group input.no-icon {
+  height: 44px;
+  padding: 0 12px;
+  background: #2a2d33;
+  color: #9097a6;
+  font-size: 14px;
+}
+#gmogame-link-account .update-account-form p {
+  margin-bottom: 0;
+  color: #9097a6;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: left;
+}
+#gmogame-link-account .social-connect {
+  margin: 20px 0 24px;
+}
+#gmogame-link-account .social-connect .btn {
+  width: 64px;
+  height: 40px;
+  cursor: pointer;
+}
+#gmogame-link-account .social-connect .btn.btn-google {
+  border-color: #fff;
+}
+#gmogame-link-account .button-action {
+  padding: 0;
+  margin-bottom: 0;
+}
+#gmogame-link-account .button-action .continue-game {
+  height: 44px;
+  padding: 0 12px;
+  border: none;
+  background: #2a2d33;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 44px;
+  cursor: pointer;
+}
+#gmogame-link-account .button-action .continue-game:hover {
+  filter: brightness(1.1);
+}
 
+/* modal switch account (giao diện SDK7): cùng kiểu alert — thẻ tối, 2 nút chia đôi (Cập nhật xám / Đổi tài khoản tím) */
 #gmogame-switch-account .modal-content {
   position: relative;
-  max-width: 330px;
-  width: 100%;
-  border-radius: 15px;
-  background: #fff;
-  padding: 20px;
+  width: min(340px, calc(100% - 32px));
+  border-radius: 16px;
+  background: #191b1f;
+  padding: 24px;
+  color: #fff;
   text-align: center;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
 }
-
+#gmogame-switch-account .modal-content > svg {
+  display: block;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+}
 #gmogame-switch-account .modal-content .modal-title {
-  margin-top: 16px;
-  margin-bottom: 13px;
-  font-size: 19px;
-  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 16px;
   line-height: 22px;
+  font-weight: 700;
+  color: #fff;
 }
-
 #gmogame-switch-account .modal-content .modal-description {
+  margin-bottom: 20px;
   font-size: 14px;
   line-height: 20px;
-  margin-bottom: 18px;
   font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
 }
-
 #gmogame-switch-account .modal-content .list-btn {
   display: flex;
-  gap: 15px;
+  gap: 8px;
 }
 #gmogame-switch-account .modal-content .list-btn button {
   flex: 1;
-  background: rgba(243, 243, 249, 1);
-  color: rgba(63, 140, 255, 1);
-  font-size: 16px;
-  line-height: 28px;
-  font-weight: 600;
+  height: 40px;
+  padding: 0 12px;
   border: none;
+  outline: none;
   border-radius: 8px;
-  padding: 8px;
+  background: #2a2d33;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: "Nunito Sans", sans-serif;
+  cursor: pointer;
 }
-
+#gmogame-switch-account .modal-content .list-btn button:hover {
+  filter: brightness(1.1);
+}
 #gmogame-switch-account .modal-content .list-btn button.active {
-  background: rgba(63, 140, 255, 1);
+  background: #5249ff;
   color: #fff;
 }
 
-/* modal payment UI */
+/* modal payment UI (giao diện SDK7): thẻ tối cùng kích thước / vị trí với thẻ login (#gmogame-login.login-screen), luồng 4 bước giữ nguyên */
 #gmogame-payment .modal-content {
   position: relative;
-  max-width: 530px;
-  width: 100%;
-  border-radius: 12px;
-  background: #fff;
-  padding: 25px 22px;
+  width: min(412px, calc(100% - 32px));
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  padding: 24px;
+  border-radius: 16px;
+  background: #191b1f;
+  color: #fff;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
   text-align: center;
 }
+/* Header: [quay lại | tiêu đề giữa | đóng] */
 #gmogame-payment .modal-content .payment-title {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 32px 1fr 32px;
   align-items: center;
-  margin-bottom: 25px;
+  margin-bottom: 8px;
 }
-#gmogame-payment .modal-content .payment-title .userinfo {
-  color: #585858;
-  font-size: 14px;
-  line-height: 19px;
+#gmogame-payment .modal-content .payment-title .payment-text {
+  display: contents;
 }
-#gmogame-payment .modal-content .payment-title .userinfo span {
-  font-weight: bold;
-  color: #000;
+#gmogame-payment .modal-content .payment-title .payment-heading,
+#gmogame-payment .modal-content .payment-title .payment-text span {
+  grid-column: 2;
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 700;
+  color: #fff;
 }
-
+#gmogame-payment .modal-content .payment-title .btn-prev,
 #gmogame-payment .modal-content .payment-title .close-modal {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
   background: none;
   border: none;
   outline: none;
   cursor: pointer;
 }
-#gmogame-payment .modal-content .payment-title .payment-text {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px;
+#gmogame-payment .modal-content .payment-title .btn-prev {
+  grid-column: 1;
 }
-#gmogame-payment .modal-content .payment-title .payment-text .btn-prev {
-  background: transparent;
-  outline: none;
-  border: none;
-  cursor: pointer;
+#gmogame-payment .modal-content .payment-title .close-modal svg {
+  width: 14px;
+  height: 14px;
 }
-
-#gmogame-payment .modal-content .payment-title .payment-text span {
-  font-size: 20px;
-  font-weight: 600;
+#gmogame-payment .modal-content .payment-title .close-modal {
+  grid-column: 3;
 }
-
-#gmogame-payment .modal-content .payment-step-1 {
+#gmogame-payment .modal-content .payment-step-1 .userinfo {
+  color: #9097a6;
+  font-size: 12px;
+  line-height: 16px;
+  margin-bottom: 16px;
 }
-
-#gmogame-payment .modal-content .payment-step-1 .payment-description {
-  background: rgba(248, 248, 248, 1);
-  padding: 7px 17px;
-  font-size: 16px;
-  line-height: 22px;
-  font-weight: bold;
-  border-radius: 6px;
-  margin-bottom: 20px;
-  text-align: left;
+#gmogame-payment .modal-content .payment-step-1 .userinfo span {
+  color: #fff;
+  font-weight: 700;
 }
-
+/* Bước 1: hiện đủ các tab (xuống dòng khi nhiều, như bản cũ), tab đang chọn là viên thuốc viền tím */
 #gmogame-payment .modal-content .payment-step-1 .payment-tab {
   display: flex;
   flex-wrap: wrap;
-  gap: 5px;
-  margin-bottom: 20px;
-}
-#gmogame-payment .modal-content .payment-step-1 .payment-tab .tab-item {
-  padding: 7px 10px;
-  font-size: 14px;
-  line-height: 19px;
-  font-weight: 600;
-  cursor: pointer;
-}
-#gmogame-payment
-  .modal-content
-  .payment-step-1
-  .payment-tab.has-images
-  .tab-item {
-  padding: 7px 10px;
-  font-size: 14px;
-  line-height: 19px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-#gmogame-payment .modal-content .payment-step-1 .payment-tab .tab-item.active {
-  background: #1877f2;
-  color: #fff;
-  border-radius: 6px;
-}
-
-#gmogame-payment
-  .modal-content
-  .payment-step-1
-  .payment-tab.has-images
-  .tab-item.active {
-  border: 1px solid #1877f2;
-  background: #fff;
-  color: #1877f2;
-  border-radius: 6px;
-}
-
-#gmogame-payment .modal-content .payment-step-1 .payment-packages {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 16px;
-  max-height: 30vh;
-  overflow: auto;
-}
-#gmogame-payment
-  .modal-content
-  .payment-step-1
-  .payment-packages
-  .package-item {
-  width: calc((100% - 32px) / 3);
-  border: 1px solid #eef2f6;
-  padding: 15px 15px 7px;
-  border-radius: 12px;
-  transition: 0.5s all ease;
-  cursor: pointer;
-}
-@media (max-width: 576px) {
-  #gmogame-payment
-    .modal-content
-    .payment-step-1
-    .payment-packages
-    .package-item {
-    width: calc((100% - 16px) / 2);
-  }
-}
-#gmogame-payment
-  .modal-content
-  .payment-step-1
-  .payment-packages
-  .package-item:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-}
-
-#gmogame-payment
-  .modal-content
-  .payment-step-1
-  .payment-packages
-  .package-item
-  .package-image {
-  height: 72px;
-  margin-bottom: 17px;
-}
-
-#gmogame-payment
-  .modal-content
-  .payment-step-1
-  .payment-packages
-  .package-item
-  .package-image
-  img {
-  height: 100%;
-}
-
-#gmogame-payment
-  .modal-content
-  .payment-step-1
-  .payment-packages
-  .package-item
-  .package-promotion {
-  background: #fff7f1;
-  border-radius: 10px;
-  margin-bottom: 8px;
-  color: #ff7809;
-  padding: 2px 4px;
-  font-size: 12px;
-  text-align: left;
-}
-
-#gmogame-payment
-  .modal-content
-  .payment-step-1
-  .payment-packages
-  .package-item
-  .package-name {
-  color: #000;
-  line-height: 22px;
-  font-size: 16px;
-  font-weight: 700;
-  margin-bottom: 11px;
-}
-
-#gmogame-payment
-  .modal-content
-  .payment-step-1
-  .payment-packages
-  .package-item.has-image
-  .package-name {
-  color: #1877f2;
-}
-
-#gmogame-payment
-  .modal-content
-  .payment-step-1
-  .payment-packages
-  .package-item
-  .package-price {
-  background: url(images/bg-price.png) no-repeat center center/
-    100%;
-  height: 30px;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  font-size: 15px;
-  font-weight: 700;
-  color: #fff;
-}
-
-#gmogame-payment .modal-content .payment-step-2 .amount {
-  font-weight: 800;
-  font-size: 36px;
-  line-height: 50px;
-}
-#gmogame-payment .modal-content .payment-step-2 .amount span {
-  font-size: 27px;
-  font-weight: 500;
-}
-
-#gmogame-payment .modal-content .payment-step-2 .description {
-  color: #1877f2;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 22px;
+  gap: 4px;
   margin-bottom: 16px;
 }
-
-#gmogame-payment .modal-content .payment-step-2 .list-method {
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  padding: 22px;
-  gap: 15px;
-  margin-bottom: 12px;
-}
-@media (max-width: 576px) {
-  #gmogame-payment .modal-content .payment-step-2 .list-method {
-    padding: 10px 5px;
-  }
-}
-
-#gmogame-payment .modal-content .payment-step-2 .list-method .item-method {
-  border: 1px solid rgba(0, 0, 0, 0.06);
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px;
-  border-radius: 8px;
-  gap: 6px;
-  width: 114px;
+#gmogame-payment .modal-content .payment-step-1 .payment-tab .tab-item {
+  flex: none;
+  padding: 5px 12px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  color: #9097a6;
+  white-space: nowrap;
   cursor: pointer;
 }
-#gmogame-payment
-  .modal-content
-  .payment-step-2
-  .list-method
-  .item-method.active {
-  position: relative;
-  border: 1px solid #1877f2;
+#gmogame-payment .modal-content .payment-step-1 .payment-tab .tab-item.active {
+  border-color: #6b6bfd;
+  color: #a5a5ff;
 }
-#gmogame-payment
-  .modal-content
-  .payment-step-2
-  .list-method
-  .item-method:hover {
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+/* Bước 1: lưới gói 3 cột, cuộn dọc khi nhiều gói */
+#gmogame-payment .modal-content .payment-step-1 .payment-packages {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  max-height: min(360px, calc(100dvh - 220px));
+  overflow-y: auto;
 }
-#gmogame-payment
-  .modal-content
-  .payment-step-2
-  .list-method
-  .item-method.active::after {
-  content: "";
-  width: 17.5px;
-  height: 17.5px;
-  background: url(images/ic-selected.png) no-repeat 0 0 /100%;
-  position: absolute;
-  top: 5px;
-  right: 5px;
+#gmogame-payment .modal-content .payment-step-1 .payment-packages .payment-empty {
+  grid-column: 1 / -1;
+  color: #9097a6;
+  font-size: 13px;
+  padding: 16px 0;
 }
-#gmogame-payment
-  .modal-content
-  .payment-step-2
-  .list-method
-  .item-method
-  .method-image {
-  width: 40px;
-  height: 40px;
+#gmogame-payment .modal-content .payment-step-1 .payment-packages .package-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 6px 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: #2a2d33;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
 }
-#gmogame-payment
-  .modal-content
-  .payment-step-2
-  .list-method
-  .item-method
-  .method-image
-  img {
+#gmogame-payment .modal-content .payment-step-1 .payment-packages .package-item:hover,
+#gmogame-payment .modal-content .payment-step-1 .payment-packages .package-item.active {
+  border-color: #6b6bfd;
+}
+#gmogame-payment .modal-content .payment-step-1 .payment-packages .package-item .package-name {
+  color: #fff;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  word-break: break-word;
+}
+#gmogame-payment .modal-content .payment-step-1 .payment-packages .package-item .package-image {
+  height: 48px;
+}
+#gmogame-payment .modal-content .payment-step-1 .payment-packages .package-item .package-image img {
+  height: 100%;
+}
+#gmogame-payment .modal-content .payment-step-1 .payment-packages .package-item .package-price {
+  width: 100%;
+  margin-top: auto;
+  padding: 3px 4px;
+  border-radius: 6px;
+  background: #5249ff;
+  color: #fff;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+/* Nút chính (tím) dùng chung cho bước 2, 3, 4 */
+#gmogame-payment .modal-content .payment-step-1 .payment-action .payment-action-button,
+#gmogame-payment .modal-content .payment-step-2 .payment-action .payment-action-button,
+#gmogame-payment .modal-content .payment-step-card .payment-card .form-group .btn-payment-card,
+#gmogame-payment .modal-content .payment-step-la .btn-aciton .btn-payment {
+  width: 100%;
+  height: 44px;
+  padding: 0 12px;
+  border: none;
+  outline: none;
+  border-radius: 8px;
+  background: #5249ff;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: "Nunito Sans", sans-serif;
+  cursor: pointer;
+  transition: 0.2s all ease;
+}
+#gmogame-payment .modal-content .payment-step-1 .payment-action .payment-action-button:hover,
+#gmogame-payment .modal-content .payment-step-2 .payment-action .payment-action-button:hover,
+#gmogame-payment .modal-content .payment-step-card .payment-card .form-group .btn-payment-card:hover,
+#gmogame-payment .modal-content .payment-step-la .btn-aciton .btn-payment:hover {
+  filter: brightness(1.1);
+}
+#gmogame-payment .modal-content .payment-step-1 .payment-action .payment-action-button:disabled,
+#gmogame-payment .modal-content .payment-step-2 .payment-action .payment-action-button:disabled,
+#gmogame-payment .modal-content .payment-step-card .payment-card .form-group .btn-payment-card:disabled,
+#gmogame-payment .modal-content .payment-step-la .btn-aciton .btn-payment:disabled {
+  background: #2a2d33;
+  color: #9097a6;
+  filter: none;
+  cursor: not-allowed;
+}
+#gmogame-payment .modal-content .payment-step-1 .payment-action {
+  margin-top: 16px;
+}
+/* Bước 2: màn Thanh toán (thông tin đơn + phương thức đang chọn) */
+#gmogame-payment .modal-content .payment-step-2 .payment-role {
+  text-align: left;
+  padding: 8px 0 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+#gmogame-payment .modal-content .payment-step-2 .payment-role-name {
+  color: #fff;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+}
+#gmogame-payment .modal-content .payment-step-2 .payment-role-server {
+  color: #9097a6;
+  font-size: 12px;
+  line-height: 16px;
+}
+#gmogame-payment .modal-content .payment-step-2 .payment-summary {
+  margin-bottom: 24px;
+}
+#gmogame-payment .modal-content .payment-step-2 .payment-summary-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  color: #9097a6;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: left;
+}
+#gmogame-payment .modal-content .payment-step-2 .payment-summary-row .payment-summary-value {
+  color: #fff;
+  font-weight: 700;
+  text-align: right;
+  word-break: break-word;
+}
+#gmogame-payment .modal-content .payment-step-2 .payment-selected-method {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 8px 0;
+  margin-bottom: 12px;
+  background: none;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-family: "Nunito Sans", sans-serif;
+  cursor: pointer;
+}
+#gmogame-payment .modal-content .payment-step-2 .payment-selected-method .method-name {
+  flex: 1;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 600;
+}
+/* Icon phương thức dùng chung cho màn Thanh toán và danh sách */
+#gmogame-payment .modal-content .payment-step-2 .method-image,
+#gmogame-payment .modal-content .payment-step-methods .method-image {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: #fff;
+}
+#gmogame-payment .modal-content .payment-step-2 .method-image img,
+#gmogame-payment .modal-content .payment-step-methods .method-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-#gmogame-payment
-  .modal-content
-  .payment-step-2
-  .list-method
-  .item-method
-  .method-name {
-  font-size: 12px;
-  line-height: 16px;
-  color: rgba(79, 79, 79, 1);
+/* Màn Phương thức thanh toán: danh sách dọc, radio bên phải */
+#gmogame-payment .modal-content .payment-step-methods .list-method {
+  margin-top: 8px;
+  max-height: min(420px, calc(100dvh - 140px));
+  overflow-y: auto;
+  padding-right: 6px;
+  text-align: left;
+  /* Thanh cuộn mảnh, màu tối hợp theme (Firefox / Chrome 121+) */
+  scrollbar-width: thin;
+  scrollbar-color: #3a3d44 transparent;
+}
+/* Thanh cuộn cho Safari / Chrome cũ */
+#gmogame-payment .modal-content .payment-step-methods .list-method::-webkit-scrollbar {
+  width: 4px;
+}
+#gmogame-payment .modal-content .payment-step-methods .list-method::-webkit-scrollbar-track {
+  background: transparent;
+}
+#gmogame-payment .modal-content .payment-step-methods .list-method::-webkit-scrollbar-thumb {
+  background: #3a3d44;
+  border-radius: 999px;
+}
+#gmogame-payment .modal-content .payment-step-methods .list-method::-webkit-scrollbar-thumb:hover {
+  background: #5c616b;
+}
+#gmogame-payment .modal-content .payment-step-methods .list-method .item-method {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  margin-bottom: 4px;
+  border-radius: 8px;
+  background: #202226;
+  cursor: pointer;
+}
+#gmogame-payment .modal-content .payment-step-methods .list-method .item-method:last-child {
+  margin-bottom: 0;
+}
+#gmogame-payment .modal-content .payment-step-methods .list-method .item-method .method-name {
+  flex: 1;
+  color: #fff;
+  font-size: 14px;
   font-weight: 600;
 }
-
-#gmogame-payment
-  .modal-content
-  .payment-step-2
-  .payment-action
-  .payment-action-button {
-  width: 100%;
-  background: #1877f2;
-  border: none;
-  outline: none;
-  color: #fff;
-  padding: 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.5s all ease;
-  font-size: 16px;
-  font-family: "Nunito Sans", sans-serif;
+#gmogame-payment .modal-content .payment-step-methods .list-method .item-method .method-radio {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid #5c616b;
+  border-radius: 50%;
 }
-#gmogame-payment
-  .modal-content
-  .payment-step-2
-  .payment-action
-  .payment-action-button:hover {
-  filter: brightness(1.1);
+#gmogame-payment .modal-content .payment-step-methods .list-method .item-method.active .method-radio {
+  border-color: #5249ff;
+  background: #5249ff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2.5 6.2l2.3 2.3 4.7-4.9' fill='none' stroke='%23fff' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat center / 12px;
 }
-
-#gmogame-payment
-  .modal-content
-  .payment-step-2
-  .payment-action
-  .payment-action-button:disabled {
-  background: #5999eb;
-  cursor: not-allowed;
-}
+/* Bước 3: nạp thẻ */
 #gmogame-payment .modal-content .payment-step-card .payment-card {
   text-align: left;
+  margin-top: 8px;
 }
-#gmogame-payment
-  .modal-content
-  .payment-step-card
-  .payment-card
-  .method_policy {
-  text-align: left;
-  color: red;
-  font-size: 14px;
-  line-height: 19px;
-  margin-bottom: 20px;
+#gmogame-payment .modal-content .payment-step-card .payment-card .method_policy {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(255, 107, 107, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+  line-height: 18px;
+  margin-bottom: 16px;
 }
-#gmogame-payment
-  .modal-content
-  .payment-step-card
-  .payment-card
-  .method_policy {
-  text-align: left;
-  color: red;
-  font-size: 14px;
-  line-height: 19px;
-  margin-bottom: 20px;
+#gmogame-payment .modal-content .payment-step-card .payment-card .method_policy span {
+  color: #ff6b6b;
+  font-weight: 700;
+}
+#gmogame-payment .modal-content .payment-step-card .payment-card .method_policy a {
+  color: #a5a5ff;
+  text-decoration: none;
 }
 #gmogame-payment .modal-content .payment-step-card .payment-card .form-group {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
-#gmogame-payment
-  .modal-content
-  .payment-step-card
-  .payment-card
-  .form-group
-  label {
+#gmogame-payment .modal-content .payment-step-card .payment-card .form-group label {
   display: block;
-  margin-bottom: 5px;
-  font-size: 14px;
-  line-height: 19px;
+  margin-bottom: 6px;
+  color: #9097a6;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
 }
-
-#gmogame-payment
-  .modal-content
-  .payment-step-card
-  .payment-card
-  .form-group
-  input {
-  display: block;
-  margin-bottom: 5px;
-  height: calc(1.5em + 0.75rem + 8px);
+#gmogame-payment .modal-content .payment-step-card .payment-card .form-group input {
   display: block;
   width: 100%;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
-
-#gmogame-payment
-  .modal-content
-  .payment-step-card
-  .payment-card
-  .form-group
-  .btn-payment-card {
-  width: 100%;
-  background: #1877f2;
-  border: none;
-  outline: none;
-  color: #fff;
-  padding: 12px;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid #2a2d33;
   border-radius: 8px;
-  cursor: pointer;
-  transition: 0.5s all ease;
-  font-size: 16px;
+  background: #2a2d33;
+  color: #fff;
+  font-size: 14px;
   font-family: "Nunito Sans", sans-serif;
+  outline: none;
+  transition: border-color 0.2s ease;
 }
-
-#gmogame-payment
-  .modal-content
-  .payment-step-card
-  .payment-card
-  .form-group
-  .btn-payment-card:hover {
-  filter: brightness(1.1);
+#gmogame-payment .modal-content .payment-step-card .payment-card .form-group input:focus {
+  border-color: #6b6bfd;
 }
-
-#gmogame-payment
-  .modal-content
-  .payment-step-card
-  .payment-card
-  .form-group
-  .btn-payment-card:disabled {
-  background: #5999eb;
-  cursor: not-allowed;
-}
-
+/* Bước 4: PIN Lá */
 #gmogame-payment .modal-content .payment-step-la .payment-info {
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
-  gap: 15px;
-  padding-bottom: 22px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  margin-bottom: 20px;
+  gap: 10px;
+  margin: 8px 0 20px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #2a2d33;
 }
-
-#gmogame-payment
-  .modal-content
-  .payment-step-la
-  .payment-info
-  .payment-info-content {
+#gmogame-payment .modal-content .payment-step-la .payment-info .payment-info-content {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
+  gap: 12px;
 }
-
-#gmogame-payment
-  .modal-content
-  .payment-step-la
-  .payment-info
-  .payment-info-content
-  .payment-info-text {
-  color: #565656;
-  font-size: 16px;
+#gmogame-payment .modal-content .payment-step-la .payment-info .payment-info-content .payment-info-text {
+  color: #9097a6;
+  font-size: 13px;
+  text-align: left;
 }
-
-#gmogame-payment
-  .modal-content
-  .payment-step-la
-  .payment-info
-  .payment-info-content
-  .payment-info-value {
-  color: #111111;
-  font-weight: 600;
-  font-size: 16px;
+#gmogame-payment .modal-content .payment-step-la .payment-info .payment-info-content .payment-info-value {
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
   text-align: right;
+  word-break: break-all;
 }
 #gmogame-payment .modal-content .payment-step-la .pin-info {
   text-align: center;
 }
 #gmogame-payment .modal-content .payment-step-la .pin-info .pin-title {
-  font-weight: bold;
-  font-size: 16px;
-  margin-bottom: 15px;
+  color: #fff;
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 12px;
 }
-#gmogame-payment
-  .modal-content
-  .payment-step-la
-  .pin-info
-  .pin-contaiter
-  .pin-input {
+#gmogame-payment .modal-content .payment-step-la .pin-info .pin-contaiter .pin-input {
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  gap: 8px;
   justify-content: center;
-  margin-bottom: 13px;
+  margin-bottom: 12px;
 }
-#gmogame-payment
-  .modal-content
-  .payment-step-la
-  .pin-info
-  .pin-contaiter
-  .pin-input
-  input {
-  border: 1px solid rgba(229, 229, 229, 1);
-  padding: 8px;
+#gmogame-payment .modal-content .payment-step-la .pin-info .pin-contaiter .pin-input input {
+  width: 44px;
+  height: 52px;
+  padding: 0;
+  border: 1px solid #3a3d44;
+  border-radius: 8px;
+  background: #2a2d33;
+  color: #fff;
   text-align: center;
-  border-radius: 7px;
-  width: 48px;
-  height: 60px;
-  font-size: 32px;
-  line-height: 60px;
+  font-size: 24px;
+  font-family: "Nunito Sans", sans-serif;
+  outline: none;
 }
-#gmogame-payment
-  .modal-content
-  .payment-step-la
-  .pin-info
-  .pin-contaiter
-  .pin-error {
+#gmogame-payment .modal-content .payment-step-la .pin-info .pin-contaiter .pin-input input:focus {
+  border-color: #6b6bfd;
+}
+#gmogame-payment .modal-content .payment-step-la .pin-info .pin-contaiter .pin-error {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 15px;
+  gap: 8px;
+  margin-bottom: 12px;
 }
-#gmogame-payment
-  .modal-content
-  .payment-step-la
-  .pin-info
-  .pin-contaiter
-  .pin-error
-  span {
+#gmogame-payment .modal-content .payment-step-la .pin-info .pin-contaiter .pin-error span {
   font-size: 12px;
-  color: rgba(235, 87, 87, 1);
-  font-weight: bold;
+  color: #ff6b6b;
+  font-weight: 700;
 }
-#gmogame-payment
-  .modal-content
-  .payment-step-la
-  .pin-info
-  .pin-contaiter
-  .pin-create {
-  margin-bottom: 15px;
+#gmogame-payment .modal-content .payment-step-la .pin-info .pin-contaiter .pin-create {
+  margin-bottom: 16px;
 }
-#gmogame-payment
-  .modal-content
-  .payment-step-la
-  .pin-info
-  .pin-contaiter
-  .pin-create
-  a {
-  font-size: 14px;
-  color: rgba(24, 119, 242, 1);
+#gmogame-payment .modal-content .payment-step-la .pin-info .pin-contaiter .pin-create a {
+  font-size: 13px;
+  color: #a5a5ff;
   text-decoration: none;
-}
-#gmogame-payment .modal-content .payment-step-la .btn-aciton .btn-payment {
-  width: 100%;
-  background: #1877f2;
-  border: none;
-  outline: none;
-  color: #fff;
-  padding: 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.5s all ease;
-  font-size: 16px;
-  font-family: "Nunito Sans", sans-serif;
-}
-#gmogame-payment
-  .modal-content
-  .payment-step-la
-  .btn-aciton
-  .btn-payment:hover {
-  filter: brightness(1.1);
-}
-#gmogame-payment
-  .modal-content
-  .payment-step-la
-  .btn-aciton
-  .btn-payment:disabled {
-  background: #5999eb;
-  cursor: not-allowed;
 }
 /**
 Sidebar
@@ -3329,6 +3424,7 @@ ITIPHONE
 }
 
 /* QR login view (GMOGameQRLoginUI) */
+/* Màn đăng nhập QR (giao diện SDK7): thẻ tối giống màn login, không phủ nền tối (thẻ login được ẩn khi mở màn này) */
 #gmogame-qr-login {
   position: fixed;
   inset: 0;
@@ -3337,54 +3433,62 @@ ITIPHONE
   align-items: center;
   justify-content: center;
   padding: 16px;
-  background: rgba(0, 0, 0, 0.5);
+  background: transparent;
 }
 #gmogame-qr-login .qr-login-dialog {
-  width: 100%;
-  max-width: 506px;
+  width: min(412px, 100%);
   max-height: 100%;
   overflow-y: auto;
-  padding: 20px 24px 40px;
-  border-radius: 12px;
-  background: #fff;
+  padding: 24px;
+  border-radius: 16px;
+  background: #191b1f;
+  color: #fff;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
   text-align: center;
 }
 #gmogame-qr-login .qr-login-header {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 #gmogame-qr-login .qr-login-title {
   flex: 1;
-  color: #333;
-  font-size: 18px;
-  font-weight: 700;
-  line-height: 24px;
-  text-align: left;
+  color: #fff;
+  font-family: "Inter", "Nunito Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: center;
 }
 #gmogame-qr-login .qr-login-btn-icon {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   width: 28px;
   height: 28px;
   padding: 0;
   border: none;
   background: transparent;
+  color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
 }
+#gmogame-qr-login .qr-login-btn-icon:hover {
+  color: #fff;
+}
+/* Ô trắng bo góc bọc QR */
 #gmogame-qr-login .qr-login-code {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 210px;
-  height: 210px;
+  width: 180px;
+  height: 180px;
   margin: 0 auto 20px;
-  padding: 14px;
-  border: 1px solid #e6e6e6;
-  border-radius: 16px;
+  padding: 10px;
+  border-radius: 12px;
+  background: #fff;
 }
 #gmogame-qr-login .qr-login-code #gmogame-qr-login-image {
   cursor: pointer;
@@ -3410,20 +3514,22 @@ ITIPHONE
   align-items: center;
   justify-content: center;
   gap: 8px;
-  width: 130px;
-  height: 34px;
+  width: 136px;
+  height: 36px;
+  padding: 0 8px;
   border: none;
-  border-radius: 6px;
-  background: #1f6fe5;
+  border-radius: 8px;
+  background: #272a2e;
   color: #fff;
-  font-family: inherit;
-  font-size: 13px;
-  font-weight: 700;
+  font-family: "Inter", "Nunito Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 #gmogame-qr-login .qr-login-btn:hover {
-  filter: brightness(0.9);
+  filter: brightness(1.2);
 }
 #gmogame-qr-login .qr-login-btn:disabled {
   cursor: default;
@@ -3437,7 +3543,7 @@ ITIPHONE
 }
 #gmogame-qr-login .qr-login-message {
   margin-top: 10px;
-  color: #eb5757;
+  color: #ff6b6b;
   font-size: 12px;
   font-weight: 600;
   line-height: 16px;
@@ -3451,7 +3557,7 @@ ITIPHONE
   justify-content: center;
   gap: 12px;
   padding: 16px;
-  border-radius: 16px;
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.94);
 }
 #gmogame-qr-login .qr-login-overlay-text {
@@ -3464,17 +3570,409 @@ ITIPHONE
   height: 30px;
   padding: 0 16px;
   border: none;
-  border-radius: 6px;
-  background: #1f6fe5;
+  border-radius: 8px;
+  background: #5249ff;
   color: #fff;
-  font-family: inherit;
+  font-family: "Inter", "Nunito Sans", sans-serif;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
 }
 #gmogame-qr-login .qr-login-refresh:hover {
-  filter: brightness(0.9);
+  filter: brightness(1.1);
 }
 #gmogame-qr-login .qr-login-message.is-success {
-  color: #27ae60;
+  color: #4cd08a;
+}
+
+/* Popup hướng dẫn đăng nhập QR (GMOGameQRLoginGuideUI): thẻ tối giống màn QR, hiện thay chỗ thẻ QR */
+#gmogame-qr-guide {
+  position: fixed;
+  inset: 0;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+#gmogame-qr-guide .qr-guide-dialog {
+  width: min(412px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 24px;
+  border-radius: 16px;
+  background: #191b1f;
+  color: #fff;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  font-family: "Inter", "Nunito Sans", sans-serif;
+}
+#gmogame-qr-guide .qr-guide-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+#gmogame-qr-guide .qr-guide-header-space,
+#gmogame-qr-guide .qr-guide-close {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+}
+#gmogame-qr-guide .qr-guide-title {
+  flex: 1;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+}
+#gmogame-qr-guide .qr-guide-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+}
+#gmogame-qr-guide .qr-guide-close:hover {
+  color: #fff;
+}
+#gmogame-qr-guide .qr-guide-desc {
+  margin-bottom: 20px;
+  font-size: 13px;
+  line-height: 18px;
+  color: rgba(255, 255, 255, 0.85);
+}
+#gmogame-qr-guide .qr-guide-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* Mỗi bước: số trong vòng tròn, các vòng nối với nhau bằng đường dọc */
+#gmogame-qr-guide .qr-guide-step {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 22px;
+  font-size: 13px;
+  line-height: 18px;
+}
+#gmogame-qr-guide .qr-guide-step + .qr-guide-step {
+  margin-top: 20px;
+}
+#gmogame-qr-guide .qr-guide-step + .qr-guide-step::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  bottom: 100%;
+  width: 1.5px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.6);
+}
+#gmogame-qr-guide .qr-guide-step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid #fff;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+}
+#gmogame-qr-guide .qr-guide-scan-icon {
+  display: inline-block;
+  margin: 0 2px;
+  vertical-align: -3px;
+}
+
+/* Menu nút nổi chính (GMOGameFloatingMenuUI), đồng bộ Android: thẻ #191B1F bo 16, lưới 2 cột, trượt vào từ cạnh có nút */
+#gmogame-float-menu-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: transparent;
+}
+#gmogame-float-menu-layer .float-menu {
+  position: absolute;
+  top: 50%;
+  width: 140px; /* theo thiết kế: menu lưới rộng cố định, 2 cột bằng nhau */
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  padding: 8px;
+  border-radius: 16px;
+  background: #191b1f;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  font-family: "Inter", "Nunito Sans", sans-serif;
+  transition: transform 0.3s ease;
+}
+#gmogame-float-menu-layer .float-menu.is-left {
+  transform: translate(calc(-100% - 50px), -50%);
+}
+#gmogame-float-menu-layer .float-menu.is-right {
+  transform: translate(calc(100% + 50px), -50%);
+}
+#gmogame-float-menu-layer .float-menu.is-open {
+  transform: translate(0, -50%);
+}
+#gmogame-float-menu-layer .float-menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 0;
+}
+#gmogame-float-menu-layer .float-menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  padding: 2px; /* menu 140px: tên mục rộng 58px để "Tài khoản", "Quà Tặng" (11px) nằm 1 dòng */
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-family: inherit;
+  cursor: pointer;
+}
+#gmogame-float-menu-layer .float-menu-item.is-locked {
+  opacity: 0.4;
+  cursor: default;
+}
+#gmogame-float-menu-layer .float-menu-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; /* theo thiết kế: khung nền 40x40 */
+  height: 40px;
+  border-radius: 12px;
+  background: #2a2d33;
+}
+#gmogame-float-menu-layer .float-menu-item:not(.is-locked):hover .float-menu-icon {
+  background: #34373e;
+}
+#gmogame-float-menu-layer .float-menu-icon img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+#gmogame-float-menu-layer .float-menu-title {
+  display: -webkit-box;
+  width: 100%;
+  margin-top: 4px;
+  overflow: hidden;
+  font-size: 11px; /* theo thiết kế */
+  line-height: 14px;
+  text-align: center;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+/* Panel tài khoản (mục "pr"): cạnh menu, rộng 200px */
+#gmogame-float-menu-layer .float-profile-panel {
+  position: absolute;
+  padding: 12px;
+  border-radius: 16px;
+  background: #191b1f;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-family: "Inter", "Nunito Sans", sans-serif;
+}
+#gmogame-float-menu-layer .float-profile-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#gmogame-float-menu-layer .float-profile-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px; /* theo thiết kế: avatar 24x24 */
+  height: 24px;
+  border-radius: 50%;
+  background: #2a2d33;
+}
+#gmogame-float-menu-layer .float-profile-avatar img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+#gmogame-float-menu-layer .float-profile-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 12px; /* theo thiết kế */
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#gmogame-float-menu-layer .float-profile-settings {
+  display: flex;
+  flex-shrink: 0;
+  padding: 0; /* theo thiết kế: nút cài đặt 20x20 (đúng bằng icon) */
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+}
+#gmogame-float-menu-layer .float-profile-logout {
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px 8px;
+  border: none;
+  border-radius: 8px;
+  background: #202226;
+  color: #e5534b;
+  font-family: inherit;
+  font-size: 11px; /* theo thiết kế */
+  cursor: pointer;
+}
+#gmogame-float-menu-layer .float-profile-logout:hover {
+  background: #2a2d33;
+}
+
+/* Màn Cài đặt (GMOGameSettingUI), đồng bộ Android com_gamota_fragment_setting: thẻ #191B1F rộng 412, các dòng 48px nền #202226 */
+#gmogame-setting {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+#gmogame-setting .setting-card {
+  width: min(412px, 100%);
+  max-height: 100%;
+  overflow-y: auto;
+  border-radius: 16px;
+  background: #191b1f;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  color: #fff;
+  font-family: "Inter", "Nunito Sans", sans-serif;
+}
+#gmogame-setting .setting-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 8px 12px 16px;
+}
+#gmogame-setting .setting-header-space,
+#gmogame-setting .setting-close {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+}
+#gmogame-setting .setting-title {
+  flex: 1;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+#gmogame-setting .setting-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+}
+#gmogame-setting .setting-close:hover {
+  color: #fff;
+}
+#gmogame-setting .setting-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 12px 4px;
+}
+#gmogame-setting .setting-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  height: 48px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 8px;
+  background: #202226;
+  color: #fff;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+#gmogame-setting button.setting-row:hover {
+  background: #2a2d33;
+}
+#gmogame-setting .setting-row-static {
+  cursor: default;
+}
+#gmogame-setting .setting-label {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+}
+#gmogame-setting .setting-value {
+  color: #9097a6;
+  font-size: 13px;
+}
+#gmogame-setting .setting-version {
+  color: #4caf50;
+}
+#gmogame-setting .setting-chevron {
+  flex-shrink: 0;
+  color: #9097a6;
+  transition: transform 0.2s ease;
+}
+#gmogame-setting .setting-row.is-open .setting-chevron {
+  transform: rotate(90deg);
+}
+#gmogame-setting .setting-lang-list {
+  padding: 4px;
+  border-radius: 8px;
+  background: #202226;
+}
+#gmogame-setting .setting-lang-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 8px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+#gmogame-setting .setting-lang-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+#gmogame-setting .setting-lang-name {
+  flex: 1;
+}
+#gmogame-setting .setting-lang-check {
+  visibility: hidden;
+  color: #6b6bfd;
+}
+#gmogame-setting .setting-lang-item.is-active .setting-lang-check {
+  visibility: visible;
+}
+#gmogame-setting .setting-logout {
+  width: 100%;
+  padding: 20px 0 16px;
+  border: none;
+  background: transparent;
+  color: #ff4444;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+#gmogame-setting .setting-logout:hover {
+  text-decoration: underline;
 }
