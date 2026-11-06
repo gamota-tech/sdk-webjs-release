@@ -2,7 +2,7 @@
 
 Tài liệu cho dev game tích hợp **Gamota SDK H5** (`GMOGameSDK`) vào game chạy trên trình duyệt: đăng nhập (tài khoản Gamota, Google, Facebook, chơi ngay, GiG, QR), nạp, liên kết tài khoản, tracking.
 
-Version SDK của tài liệu này: **v6.2.13**
+Version SDK của tài liệu này: **v6.2.14**
 
 ## Chọn hướng dẫn theo engine
 
@@ -13,7 +13,7 @@ Version SDK của tài liệu này: **v6.2.13**
 
 Engine khác (Cocos Creator…) chưa được hỗ trợ chính thức — liên hệ Gamota trước khi tích hợp.
 
-Tra cứu chung cho mọi engine: [api.md](api.md) (API, event, dữ liệu trả về) · [checklist.md](checklist.md) (kiểm tra sau khi tích hợp, lỗi hay gặp) · [CHANGELOG.md](CHANGELOG.md) (thay đổi theo version — đọc mục "Cần làm khi nâng cấp" trước khi đổi tag).
+Tra cứu chung cho mọi engine: [api.md](api.md) (API, event, dữ liệu trả về) · [theme.md](theme.md) (theme giao diện theo game) · [checklist.md](checklist.md) (kiểm tra sau khi tích hợp, lỗi hay gặp) · [CHANGELOG.md](CHANGELOG.md) (thay đổi theo version — đọc mục "Cần làm khi nâng cấp" trước khi đổi tag).
 
 ## Chuẩn bị trước khi tích hợp
 
@@ -29,6 +29,10 @@ Xin Gamota các thông tin sau cho game (không tự đặt):
 | `adjustAppToken` | Không bắt buộc — chỉ cần khi game dùng Adjust; không dùng thì bỏ key này (SDK không tải Adjust, event vẫn gửi Log SDK / GTM) |
 | `gtmId` | Bắt buộc (dạng `GTM-…`) |
 | `appVersion` | Không bắt buộc — version game, vd. `"1.0.0"` |
+| `themeId` | Không bắt buộc — theme giao diện của SDK (vd. `"bubbo"`); không truyền thì dùng giao diện mặc định. Xem [theme.md](theme.md) |
+| `themeVersion` | Không bắt buộc — version theme, SDK gắn `?v=` để trình duyệt bỏ bản cache cũ |
+| `themeBaseUrl` | Không bắt buộc — chỉ khi theme host riêng (https); không truyền thì dùng theme đóng gói kèm SDK |
+| `topupRegion` | Không bắt buộc — luồng nạp: `"vn"` (mặc định, nạp bản Việt) hoặc `"global"` (nạp global: gói giá theo tiền tệ của gói, phương thức như XSolla / CodaPay). Giá trị khác: SDK cảnh báo trên console và dùng `"vn"` |
 
 Tham số không bắt buộc thì **bỏ hẳn key** (hoặc để `''`), không đặt giá trị giữ chỗ — giá trị bất kỳ khác rỗng đều được coi là đang dùng.
 
@@ -37,7 +41,7 @@ Thiếu tham số bắt buộc thì `init` báo lỗi `GMOGameSDK Exception: Par
 ## Yêu cầu môi trường
 
 - Game phải chạy qua **web server (https khi lên thật)**. **Không mở bằng `file://`** — đăng nhập Google / Facebook / GiG và gọi API sẽ lỗi. Test local: `python3 -m http.server 8080` rồi mở `http://localhost:8080`.
-- Luôn trỏ URL SDK vào **tag cố định** (vd. `@v6.2.13`), không dùng `@main`.
+- Luôn trỏ URL SDK vào **tag cố định** (vd. `@v6.2.14`), không dùng `@main`.
 - CSS, `gmogame-sdk-ui.js` (và `gmogame-script.js` với Unity) phải **cùng tag**.
 
 ## Tích hợp bằng AI

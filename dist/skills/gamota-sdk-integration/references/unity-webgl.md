@@ -1,4 +1,4 @@
-# Tích hợp cho Unity WebGL (v6.2.13)
+# Tích hợp cho Unity WebGL (v6.2.14)
 
 Unity 2021.3 trở lên, xuất **WebGL**. C# không gọi trực tiếp JS được, nên dùng **Gamota Unity SDK** (wrapper C# dùng chung cho Android / iOS / WebGL) + một file JS cầu nối do SDK H5 phát hành.
 
@@ -9,7 +9,7 @@ C#  onLoginSuccess / …       ←  GMOGameSDKReceiver (SendMessage)  ←  gmoga
 
 ## 1. Import Gamota Unity SDK
 
-Tải [`GMOGameSDK-WebGL.unitypackage`](https://cdn.jsdelivr.net/gh/gamota-tech/sdk-webjs-release@v6.2.13/dist/unity/GMOGameSDK-WebGL.unitypackage) rồi import vào project (Assets → Import Package → Custom Package). Package phát hành cùng tag với SDK H5, nên luôn khớp với `gmogame-script.js` cùng tag — khi nâng cấp SDK, tải lại package của tag mới.
+Tải [`GMOGameSDK-WebGL.unitypackage`](https://cdn.jsdelivr.net/gh/gamota-tech/sdk-webjs-release@v6.2.14/dist/unity/GMOGameSDK-WebGL.unitypackage) rồi import vào project (Assets → Import Package → Custom Package). Package phát hành cùng tag với SDK H5, nên luôn khớp với `gmogame-script.js` cùng tag — khi nâng cấp SDK, tải lại package của tag mới.
 
 - Package gồm `Assets/GMOGameSDK/` (`GMOGameSDK.cs`, `GMOGameSDKReceiver.cs`, `GMOSession.cs`…) và `Plugins/GMOGameSDK.jslib` — chỉ phần cần cho WebGL, **không có plugin Android / iOS**.
 - Game build cả Android / iOS từ cùng project: dùng bản đầy đủ của Gamota Unity SDK (xin Gamota). Hai bản dùng chung GUID nên import bản này đè bản kia (cùng version) không bị trùng file.
@@ -40,9 +40,9 @@ Template giữ nguyên các biến của Unity (`{{{ PRODUCT_NAME }}}`, `{{{ LOA
 Thêm 3 dòng vào `<head>` của template, **đúng thứ tự** (CSS → `gmogame-sdk-ui.js` → `gmogame-script.js`), **cùng một tag**:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gamota-tech/sdk-webjs-release@v6.2.13/dist/gmogame-sdk-ui-style.css">
-<script src="https://cdn.jsdelivr.net/gh/gamota-tech/sdk-webjs-release@v6.2.13/dist/gmogame-sdk-ui.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/gamota-tech/sdk-webjs-release@v6.2.13/dist/unity/gmogame-script.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gamota-tech/sdk-webjs-release@v6.2.14/dist/gmogame-sdk-ui-style.css">
+<script src="https://cdn.jsdelivr.net/gh/gamota-tech/sdk-webjs-release@v6.2.14/dist/gmogame-sdk-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/gamota-tech/sdk-webjs-release@v6.2.14/dist/unity/gmogame-script.js"></script>
 ```
 
 Đặt trong `<head>` (không đặt cuối `<body>`, không thêm `async` / `defer`) để SDK sẵn sàng trước khi game Unity chạy `Start()` và gọi `Init`.
@@ -93,7 +93,7 @@ Giao diện SDK (đăng nhập, nạp…) là HTML nằm đè lên canvas. Khi g
 ### 2.5. Kiểm tra template sau khi build
 
 - Mở `index.html` trong thư mục build (bằng editor): có đủ 3 dòng nhúng ở `<head>`, có `var unityGame;` và `unityGame = unityInstance;` — nếu không có, Unity đang dùng template khác (xem lại Player Settings → WebGL Template).
-- Chạy qua web server, mở DevTools → Console: không có lỗi `[GMOGameSDK] unityGame chưa được gán sau 30s`; Network: 3 file tải từ `sdk-webjs-release@v6.2.13`, không 404.
+- Chạy qua web server, mở DevTools → Console: không có lỗi `[GMOGameSDK] unityGame chưa được gán sau 30s`; Network: 3 file tải từ `sdk-webjs-release@v6.2.14`, không 404.
 
 ## 3. Gọi từ C#
 
@@ -142,6 +142,10 @@ public class GameBoot : MonoBehaviour
 ```
 
 `facebookAppId` và `adjustAppToken` không bắt buộc: game không dùng Facebook login / Adjust thì bỏ hẳn field đó khỏi chuỗi JSON ([README](README.md#chuẩn-bị-trước-khi-tích-hợp)).
+
+Theme giao diện (không bắt buộc): thêm `themeId` (và `themeVersion`, `themeBaseUrl` nếu cần) vào cùng chuỗi JSON, vd. `"\"themeId\":\"bubbo\","`. Không cần sửa bridge hay C#. Xem [theme.md](theme.md).
+
+Nạp global (không bắt buộc): thêm `"\"topupRegion\":\"global\","` vào cùng chuỗi JSON. Không truyền thì dùng nạp bản Việt. Xem bảng tham số trong [README](README.md).
 
 Trong game:
 

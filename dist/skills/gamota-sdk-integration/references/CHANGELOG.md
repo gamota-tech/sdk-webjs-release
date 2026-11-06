@@ -8,7 +8,21 @@ Thay đổi theo version, viết cho dev game. Mỗi version gồm:
 
 Tag phát hành có thể kèm hậu tố đánh dấu biến thể (vd. `-DOC` = giao diện dọc); nội dung thay đổi giống nhau giữa các biến thể cùng version.
 
-## v6.2.13 (so với v6.2.12)
+## v6.2.14 (so với v6.2.13)
+
+### Cần làm khi nâng cấp
+
+- Không có. Game không truyền `themeId` thì giao diện giữ nguyên như bản trước.
+
+### Mới
+
+- Theme giao diện SDK theo game: truyền `themeId` (và tuỳ chọn `themeVersion`, `themeBaseUrl`) trong config `init` để đổi màu, font, bo góc, shadow, nền, icon menu / avatar của toàn bộ UI SDK. Không đổi bố cục, chữ hay hành vi đăng nhập / event. Unity WebGL dùng cùng config, không cần sửa C#. Xem [theme.md](theme.md).
+- Theme đóng gói kèm SDK: `bubbo`. Game có thể tự host theme qua `themeBaseUrl` (HTTPS, có CORS cho manifest và font).
+- Theme tải song song với `init()`, không chặn đăng nhập. Trong lúc tải, UI SDK tạm ẩn tối đa 1,5 giây; lỗi hoặc quá thời gian thì dùng giao diện mặc định, console có `GMOGameSDK theme: <mã lỗi>` và SDK gửi event tracking `sdk_theme_fallback`.
+- Kiểm tra theme đã áp: `div.gmogame-wrapper` có `data-gmo-theme="<id>"` và `data-gmo-theme-status="ok"` (lỗi thì `fallback`).
+- Nạp global: key mới (không bắt buộc) `topupRegion` trong config `init`. Game truyền `topupRegion: "global"` thì `showPaymentView()` mở màn nạp global — danh sách gói giá theo tiền tệ của gói (vd. `$0.99`), chọn phương thức (XSolla, CodaPay…) rồi mở cổng thanh toán. `showPaymentView(id)` với `id` là `package_id` mở thẳng màn Thanh toán của gói đó. Không truyền (hoặc `"vn"`) thì giữ nguyên luồng nạp bản Việt, game đang chạy không cần sửa gì. Unity WebGL thêm key vào cùng chuỗi config, không cần sửa C#.
+
+## Bản kế tiếp (so với v6.2.13)
 
 ### Cần làm khi nâng cấp
 
@@ -30,7 +44,7 @@ Tag phát hành có thể kèm hậu tố đánh dấu biến thể (vd. `-DOC` 
 
 - Đồng bộ giao diện SDK7 cho đăng nhập, đăng ký, QR login, thanh toán, alert, popup text, xác thực và liên kết tài khoản; UI được cô lập tốt hơn khỏi CSS của trang game và thích ứng màn hình hẹp.
 - Đăng ký chuyển thành 5 bước, kiểm tra khả năng đăng ký số điện thoại và chỉ đăng nhập sau khi xác thực SMS thành công. Ngày sinh mặc định là ngày vừa đủ 18 tuổi và date picker không cho chọn ngày chưa đủ tuổi.
-- Thanh toán tách thành các bước chọn gói, thanh toán và phương thức thanh toán; bản debug hỗ trợ dữ liệu giả bằng `?mockpay=1`.
+- Thanh toán tách thành các bước chọn gói, thanh toán và phương thức thanh toán.
 - Tự đăng nhập khách chỉ chạy khi server bật `option.auto_quick_login`; `option.quick_login` chỉ điều khiển việc hiện nút đăng nhập nhanh.
 - Xác thực / liên kết tài khoản dựa trên `login_type` từ server, xử lý lỗi kết nối / 401 và xét độc lập `minLoginCount` / `maxLoginCount` khi server chỉ trả một ngưỡng.
 - Link xác thực tài khoản / số điện thoại giữ đúng query và fragment có sẵn; link kèm token chỉ chấp nhận HTTPS thuộc `gamota.com` / `gig.vn` và popup được ngắt `window.opener`.

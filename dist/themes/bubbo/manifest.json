@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "themeId": "bubbo",
+  "version": "1.0.0",
+  "name": "Bubbo Bubble",
+  "css": [
+    "theme.css"
+  ],
+  "images": {
+    "menu.pr": "images/menu-profile.svg",
+    "menu.ne": "images/menu-news.svg",
+    "menu.ev": "images/menu-event.svg",
+    "menu.assistant": "images/menu-assistant.svg",
+    "menu.sp": "images/menu-support.svg",
+    "menu.gc": "images/menu-giftcode.svg",
+    "menu.default": "images/menu-default.svg",
+    "avatar": "images/avatar.svg"
+  }
+}

@@ -1,0 +1,148 @@
+/*
+ * Theme Bubbo (Bubbo Bubble) — giao diện sáng kiểu bong bóng: primary cyan, accent vàng, danger hồng,
+ * thẻ trắng bo 24px, nút bo 14px, tiêu đề Bungee, chữ Open Sans SemiBold.
+ * Chỉ đặt lại giá trị token của theme default (assets/themes/default/theme.css); không đổi khung / layout.
+ * Font: Bungee, Open Sans (SIL OFL 1.1, từ @fontsource 5.2.7) — giấy phép trong fonts/OFL-*.txt.
+ */
+@font-face {
+  font-family: "Bubbo Bungee";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/bungee-vietnamese-400.woff2) format("woff2");
+  unicode-range: U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;
+}
+@font-face {
+  font-family: "Bubbo Bungee";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/bungee-latin-ext-400.woff2) format("woff2");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face {
+  font-family: "Bubbo Bungee";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(fonts/bungee-latin-400.woff2) format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+@font-face {
+  font-family: "Bubbo Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(fonts/open-sans-vietnamese-600.woff2) format("woff2");
+  unicode-range: U+0102-0103,U+0110-0111,U+0128-0129,U+0168-0169,U+01A0-01A1,U+01AF-01B0,U+0300-0301,U+0303-0304,U+0308-0309,U+0323,U+0329,U+1EA0-1EF9,U+20AB;
+}
+@font-face {
+  font-family: "Bubbo Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(fonts/open-sans-latin-ext-600.woff2) format("woff2");
+  unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF;
+}
+@font-face {
+  font-family: "Bubbo Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(fonts/open-sans-latin-600.woff2) format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+.gmogame-wrapper[data-gmo-theme="bubbo"] {
+  /* Nền: thẻ trắng có quầng cyan nhạt ở đầu thẻ */
+  --gmo-color-surface: #ffffff;
+  --gmo-color-surface-2: #eaf6fd;
+  --gmo-color-surface-3: #f2f9fd;
+  --gmo-color-surface-hover: #d6effc;
+  --gmo-color-surface-popover: #ffffff;
+  --gmo-color-input-bg: #f0f7fc;
+
+  /* Chữ: xanh đậm (tương phản ≥ 4.5:1 trên nền trắng) */
+  --gmo-color-text: #10324a;
+  --gmo-color-text-secondary: rgba(16, 50, 74, 0.8);
+  --gmo-color-text-tertiary: rgba(16, 50, 74, 0.85);
+  --gmo-color-text-subtle: rgba(16, 50, 74, 0.7);
+  --gmo-color-text-hint: rgba(16, 50, 74, 0.6);
+  --gmo-color-text-placeholder: rgba(16, 50, 74, 0.5);
+  --gmo-color-text-muted: #56707f;
+  --gmo-color-text-faint: #6b8494;
+
+  /* Nhấn: nút cyan chữ tối (chữ trắng trên #49c8ff chỉ ~1.9:1, không đọc được) */
+  --gmo-color-primary: #49c8ff;
+  --gmo-color-on-primary: #0b2a3a;
+  --gmo-color-accent: #0778b0;
+  --gmo-color-accent-soft: #0778b0;
+  --gmo-color-accent-check: #0778b0;
+  --gmo-color-checkbox: #25b8f5;
+
+  /* Trạng thái */
+  --gmo-color-danger: #d81b60;
+  --gmo-color-danger-bg: rgba(233, 30, 99, 0.08);
+  --gmo-color-danger-alt: #e91e63;
+  --gmo-color-danger-strong: #d81b60;
+  --gmo-color-success: #1e8a4c;
+  --gmo-color-success-alt: #1e8a4c;
+  --gmo-color-valid: #2a8a1a;
+  --gmo-color-warning: #b86200;
+
+  /* Đường kẻ, hover */
+  --gmo-color-hover: rgba(16, 50, 74, 0.06);
+  --gmo-color-hover-subtle: rgba(16, 50, 74, 0.04);
+  --gmo-color-divider: rgba(16, 50, 74, 0.1);
+  --gmo-color-border: #c6dbe8;
+  --gmo-color-border-strong: #97b3c4;
+  --gmo-color-progress: #d3e6f1;
+  --gmo-color-progress-active: #49c8ff;
+
+  /* Nút sáng (Google / đăng nhập nhanh): nền xanh rất nhạt để tách khỏi thẻ trắng, chữ xanh đậm */
+  --gmo-color-btn-light-bg: #e6f4fc;
+  --gmo-color-btn-light-text: #10324a;
+  --gmo-color-qr-btn-bg: #eaf6fd;
+
+  /* Lớp phủ, dòng nhắc nổi */
+  --gmo-color-overlay: rgba(16, 50, 74, 0.45);
+  --gmo-color-overlay-alert: rgba(16, 50, 74, 0.5);
+  --gmo-color-overlay-loading: rgba(16, 50, 74, 0.35);
+  --gmo-color-toast-bg: rgba(16, 50, 74, 0.85);
+  --gmo-color-toast-bg-alt: rgba(16, 50, 74, 0.25);
+  --gmo-color-toast-text: #ffffff;
+
+  /* Thành phần: thẻ có gradient + quầng (halo) cyan, nút chính gradient cyan */
+  --gmo-panel-bg: linear-gradient(180deg, #e3f6ff 0%, #ffffff 120px);
+  --gmo-panel-shadow: 0 0 0 6px rgba(73, 200, 255, 0.22), 0 18px 40px rgba(16, 50, 74, 0.28);
+  --gmo-popover-shadow: 0 8px 24px rgba(16, 50, 74, 0.2);
+  --gmo-btn-primary-bg: linear-gradient(180deg, #6fd6ff 0%, #25b8f5 100%);
+
+  /* Bo góc */
+  --gmo-radius-panel: 24px;
+  --gmo-radius-button: 14px;
+  --gmo-radius-button-lg: 14px;
+  --gmo-radius-input: 12px;
+
+  /* Font */
+  --gmo-font-body: "Bubbo Open Sans", "Nunito Sans", sans-serif;
+  --gmo-font-ui: "Bubbo Open Sans", "Nunito Sans", sans-serif;
+  --gmo-font-heading: "Bubbo Bungee", "Nunito Sans", sans-serif;
+
+  /* Icon */
+  --gmo-loading-color-1: #49c8ff;
+  --gmo-loading-color-2: #ffc42c;
+  --gmo-loading-color-3: #e91e63;
+  --gmo-alert-ring: white;
+  --gmo-alert-mark: #10324a;
+  --gmo-alert-inner: #49c8ff;
+  --gmo-alert-gradient-start: #fff1c2;
+  --gmo-alert-gradient-end: #ffc42c;
+  --gmo-icon-shield-bg: #ffc42c;
+  --gmo-icon-shield-mark: #10324a;
+  --gmo-icon-danger: #e91e63;
+  /* Icon trạng thái (SVG nhúng data:, 18×18) */
+  --gmo-icon-error: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Cpath d='M9 1l7 4v8l-7 4-7-4V5z' fill='%23e91e63' stroke='%23e91e63' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M9 5v5' stroke='%23ffffff' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='9' cy='13' r='1.2' fill='%23ffffff'/%3E%3C/svg%3E");
+  --gmo-icon-valid: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Ccircle cx='9' cy='9' r='8' fill='%231e8a4c'/%3E%3Cpath d='M5.3 9.2l2.4 2.4 5-5' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --gmo-icon-invalid: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Ccircle cx='9' cy='9' r='8' fill='%23e3eef5'/%3E%3Cpath d='M6.2 6.2l5.6 5.6M11.8 6.2l-5.6 5.6' stroke='%2356707f' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
+}
