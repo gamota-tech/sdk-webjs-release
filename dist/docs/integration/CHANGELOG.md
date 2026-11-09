@@ -8,6 +8,16 @@ Thay đổi theo version, viết cho dev game. Mỗi version gồm:
 
 Tag phát hành có thể kèm hậu tố đánh dấu biến thể (vd. `-DOC` = giao diện dọc); nội dung thay đổi giống nhau giữa các biến thể cùng version.
 
+## v6.2.15 (so với v6.2.14)
+
+### Cần làm khi nâng cấp
+
+- Không có — chỉ cần đổi tag trong URL nhúng SDK.
+
+### Thay đổi
+
+- Event tracking `login_quick` khi người chơi bấm nút "Chơi ngay" ở màn đăng nhập chỉ gửi 1 lần (bản trước gửi 2 lần tới Log SDK / Adjust / GTM). Từ bản này số liệu `login_quick` của luồng đó giảm khoảng một nửa — không phải số người chơi giảm. Tự đăng nhập khách khi mở game (`auto_quick_login`) vẫn gửi 1 lần như cũ.
+
 ## v6.2.14 (so với v6.2.13)
 
 ### Cần làm khi nâng cấp
