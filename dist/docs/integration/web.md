@@ -1,4 +1,4 @@
-# Tích hợp cho game HTML / JavaScript (v6.2.15)
+# Tích hợp cho game HTML / JavaScript (v6.2.16)
 
 Áp dụng cho game web thuần và engine JS (Phaser, PixiJS…).
 
@@ -7,8 +7,8 @@
 Thêm vào `<head>` của trang chạy game, **đúng thứ tự**, cùng một tag:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gamota-tech/sdk-webjs-release@v6.2.15/dist/gmogame-sdk-ui-style.css">
-<script src="https://cdn.jsdelivr.net/gh/gamota-tech/sdk-webjs-release@v6.2.15/dist/gmogame-sdk-ui.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/gamota-tech/sdk-webjs-release@v6.2.16/dist/gmogame-sdk-ui-style.css">
+<script src="https://cdn.jsdelivr.net/gh/gamota-tech/sdk-webjs-release@v6.2.16/dist/gmogame-sdk-ui.js"></script>
 ```
 
 Sau khi load, SDK có ở `window.GMOGameSDK`. SDK tự tải ảnh / thư viện đi kèm theo đúng tag của file JS.

@@ -2,7 +2,7 @@
 
 Tài liệu cho dev game tích hợp **Gamota SDK H5** (`GMOGameSDK`) vào game chạy trên trình duyệt: đăng nhập (tài khoản Gamota, Google, Facebook, chơi ngay, GiG, QR), nạp, liên kết tài khoản, tracking.
 
-Version SDK của tài liệu này: **v6.2.15**
+Version SDK của tài liệu này: **v6.2.16**
 
 ## Chọn hướng dẫn theo engine
 
@@ -41,7 +41,7 @@ Thiếu tham số bắt buộc thì `init` báo lỗi `GMOGameSDK Exception: Par
 ## Yêu cầu môi trường
 
 - Game phải chạy qua **web server (https khi lên thật)**. **Không mở bằng `file://`** — đăng nhập Google / Facebook / GiG và gọi API sẽ lỗi. Test local: `python3 -m http.server 8080` rồi mở `http://localhost:8080`.
-- Luôn trỏ URL SDK vào **tag cố định** (vd. `@v6.2.15`), không dùng `@main`.
+- Luôn trỏ URL SDK vào **tag cố định** (vd. `@v6.2.16`), không dùng `@main`.
 - CSS, `gmogame-sdk-ui.js` (và `gmogame-script.js` với Unity) phải **cùng tag**.
 
 ## Tích hợp bằng AI

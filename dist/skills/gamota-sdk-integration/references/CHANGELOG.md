@@ -8,6 +8,32 @@ Thay đổi theo version, viết cho dev game. Mỗi version gồm:
 
 Tag phát hành có thể kèm hậu tố đánh dấu biến thể (vd. `-DOC` = giao diện dọc); nội dung thay đổi giống nhau giữa các biến thể cùng version.
 
+## v6.2.16 (so với v6.2.15)
+
+### Cần làm khi nâng cấp
+
+- Không có — chỉ cần đổi tag trong URL nhúng SDK.
+
+### Mới
+
+- Nạp global hỗ trợ PayPal: chọn PayPal rồi bấm "Thanh toán ngay" thì màn nạp chuyển sang bước PayPal có nút PayPal (SDK tự tải thư viện PayPal). Người chơi bấm nút, đăng nhập và duyệt trong cửa sổ PayPal; SDK chỉ báo nạp thành công sau khi server xác nhận giao dịch. Bấm nút PayPal thì màn nạp ẩn đi trong lúc người chơi thanh toán ở cửa sổ PayPal. Huỷ hoặc đóng cửa sổ PayPal thì màn nạp hiện lại ở bước Thanh toán; bấm "Thanh toán ngay" để tạo giao dịch mới (giao dịch đã huỷ không dùng lại được). Đã duyệt nhưng SDK không nhận được xác nhận của server (mất mạng, quá hạn) thì SDK báo "chưa xác nhận được kết quả", không báo thất bại. Trong lúc đang thanh toán PayPal, gọi `showPaymentView()` bị bỏ qua.
+
+### Thay đổi
+
+- Nạp global: response `doTopup` thành công nhưng không có link / thông tin thanh toán thì SDK báo lỗi. Bản trước hiện thông báo của server ("Thành công") dù người chơi chưa thanh toán.
+- Nạp (bản Việt và global): người chơi đóng cửa sổ thanh toán khi SDK còn đang tạo giao dịch thì SDK tắt loading ngay để nạp lại được. Bản trước loading che màn hình tới khi API trả về.
+- Nạp (bản Việt và global, cả PayPal): API tạo / xác nhận giao dịch quá 30 giây không trả về thì SDK tắt loading và báo lỗi mạng (riêng xác nhận PayPal: báo "chưa xác nhận được kết quả"). Bản trước loading che màn hình mãi. Bản Việt cũng báo lỗi mạng khi gọi nạp lỗi (bản trước chỉ tắt loading, không báo gì).
+- Nạp (bản Việt và global, cả PayPal): bỏ vòng loading che màn hình khi gọi API nạp; thay bằng khoá nút Thanh toán trong lúc chờ (PayPal: màn nạp ẩn khi bấm nút PayPal, có kết quả mới báo). Màn tải gói / phương thức vẫn có loading.
+- Sửa lỗi loading của SDK đôi khi không tắt (che màn hình tới khi tải lại trang) khi 2 loading hiện chồng nhau.
+
+### Lưu ý đã biết
+
+Ghi nhận ở MR!13, chi tiết trong `issues_log.md`.
+
+- PayPal: thư viện PayPal (`checkout.js`) tải trực tiếp từ PayPal, không ghim phiên bản.
+- PayPal: nếu cửa sổ PayPal không gọi lại SDK (vd. popup bị chặn), màn nạp có thể vẫn ẩn và `showPaymentView()` bị bỏ qua cho tới khi tải lại trang.
+- Nạp: đóng cửa sổ thanh toán khi SDK đang tạo giao dịch rồi bấm nạp lại có thể sinh thêm đơn chờ thanh toán phía server.
+
 ## v6.2.15 (so với v6.2.14)
 
 ### Cần làm khi nâng cấp

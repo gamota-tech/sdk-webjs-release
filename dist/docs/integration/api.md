@@ -1,4 +1,4 @@
-# API và event — Gamota SDK H5 (v6.2.15)
+# API và event — Gamota SDK H5 (v6.2.16)
 
 Dùng chung cho mọi engine. Trong JS: `GMOGameSDK.getInstance().<hàm>()`. Unity gọi qua wrapper C# — xem bảng tương ứng trong [unity-webgl.md](unity-webgl.md).
 
@@ -22,7 +22,7 @@ Dùng chung cho mọi engine. Trong JS: `GMOGameSDK.getInstance().<hàm>()`. Uni
 | `logout()` | Đăng xuất. Tài khoản chơi ngay chưa cập nhật có thể thấy popup nhắc cập nhật trước |
 | `switchAccount()` | Đổi tài khoản |
 | `setRoleWithRoleName(characterName, characterId, serverName, serverId)` | Báo nhân vật đang chơi. Gọi mỗi khi vào game / đổi nhân vật |
-| `showPaymentView(v3Id?)` | Mở nạp (cần đã đăng nhập + đã set role). Không truyền `v3Id`: mở popup chọn gói. Truyền `v3Id` (id gói nạp `v3_id`, chuỗi): bỏ qua màn chọn gói, mở thẳng màn Thanh toán của gói đó; id sai / gói không bán thì SDK báo lỗi, không mở popup. **Trong app GiG** SDK tự mở màn nạp native của GiG, gửi `v3Id` cho app qua `package_id`. **Game nạp global** (config `init` có `topupRegion: "global"`): SDK dùng màn nạp global — gói giá theo tiền tệ của gói (vd. USD), phương thức như XSolla / CodaPay; `v3Id` là `package_id` của gói global. Cách gọi không đổi |
+| `showPaymentView(v3Id?)` | Mở nạp (cần đã đăng nhập + đã set role). Không truyền `v3Id`: mở popup chọn gói. Truyền `v3Id` (id gói nạp `v3_id`, chuỗi): bỏ qua màn chọn gói, mở thẳng màn Thanh toán của gói đó; id sai / gói không bán thì SDK báo lỗi, không mở popup. **Trong app GiG** SDK tự mở màn nạp native của GiG, gửi `v3Id` cho app qua `package_id`. **Game nạp global** (config `init` có `topupRegion: "global"`): SDK dùng màn nạp global — gói giá theo tiền tệ của gói (vd. USD), phương thức như XSolla / CodaPay (mở cổng thanh toán trong popup) hoặc PayPal (nút PayPal ngay trong màn nạp của SDK, cửa sổ PayPal mở khi người chơi bấm nút); `v3Id` là `package_id` của gói global. Cách gọi không đổi |
 | `showUserInfoView()` | Mở trang thông tin tài khoản (tab mới) |
 | `showAccountLinkView()` | Mở màn liên kết tài khoản (Google / Facebook) |
 | `goLoginbyGiG()` | Mở thẳng đăng nhập GiG (popup gig.vn, cùng luồng nút "Đăng nhập bằng GiG"). Kết quả trả về qua event login success (`loginType: "login_gig"`); đã đăng nhập thì bắn lại login success. **Phải gọi trong sự kiện click** của người chơi, nếu không trình duyệt chặn popup |
@@ -30,7 +30,7 @@ Dùng chung cho mọi engine. Trong JS: `GMOGameSDK.getInstance().<hàm>()`. Uni
 | `openFanpage()` / `openGroup()` | Mở fanpage / group (link cấu hình từ server) |
 | `trackLevel(level)` | Gửi event `level_up` và `level_up_<level>` |
 | `logEvent(eventName, eventParamsJson)` | Gửi event tracking. `eventParamsJson`: chuỗi JSON object hoặc bỏ trống |
-| `getVersion()` | Version SDK, vd. `"v6.2.15"` |
+| `getVersion()` | Version SDK, vd. `"v6.2.16"` |
 
 Đăng nhập GiG và QR có nút sẵn trong màn đăng nhập (nút QR chỉ hiện khi server bật cho game). Game muốn tự đặt nút "Đăng nhập GiG" thì gọi `goLoginbyGiG()`.
 

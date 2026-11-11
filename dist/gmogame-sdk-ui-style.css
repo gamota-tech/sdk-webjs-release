@@ -1957,6 +1957,18 @@ input[type="date"]::-webkit-datetime-edit-day-field:not([aria-valuenow]) {
   font-size: 14px;
   font-weight: 600;
 }
+/* Bước PayPal của nạp global (dùng chung class payment-step-2 cho tóm tắt gói). Nút là iframe của PayPal, không theo theme */
+#gmogame-payment .modal-content .payment-step-paypal .payment-paypal-status {
+  display: none;
+  margin: 0 0 12px;
+  color: var(--gmo-color-text-muted);
+  font-size: 13px;
+  line-height: 18px;
+  text-align: center;
+}
+#gmogame-payment .modal-content .payment-step-paypal .payment-paypal-button {
+  min-height: 45px;
+}
 /* Icon phương thức dùng chung cho màn Thanh toán và danh sách */
 #gmogame-payment .modal-content .payment-step-2 .method-image,
 #gmogame-payment .modal-content .payment-step-methods .method-image {
