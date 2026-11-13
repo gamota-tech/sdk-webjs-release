@@ -19,7 +19,7 @@ sdk.init(JSON.stringify({
 }), '{}');
 ```
 
-Theme đóng gói kèm SDK ở bản v6.2.16: `bubbo`.
+Theme đóng gói kèm SDK ở bản v6.2.17: `bubbo`.
 
 ### Hành vi
 

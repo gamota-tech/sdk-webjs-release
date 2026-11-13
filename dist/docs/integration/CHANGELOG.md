@@ -8,6 +8,16 @@ Thay đổi theo version, viết cho dev game. Mỗi version gồm:
 
 Tag phát hành có thể kèm hậu tố đánh dấu biến thể (vd. `-DOC` = giao diện dọc); nội dung thay đổi giống nhau giữa các biến thể cùng version.
 
+## v6.2.17 (so với v6.2.16)
+
+### Cần làm khi nâng cấp
+
+- Không có — chỉ cần đổi tag trong URL nhúng SDK.
+
+### Thay đổi
+
+- Nạp (bản Việt và global, cả PayPal): trước mỗi request nạp, SDK kiểm tra hạn token nạp của người chơi (token Playee, sống khoảng 7 ngày) và tự làm mới khi sắp hết hạn, nên người chơi giữ phiên đăng nhập lâu ngày không còn bị lỗi xác thực khi nạp. Token làm mới cũng hết hạn thì SDK tự lấy token mới bằng phiên đăng nhập Gamota. Phiên đăng nhập Gamota cũng đã hết hạn thì SDK đóng màn nạp, logout (game nhận event logout) và báo người chơi đăng nhập lại. Không áp dụng cho đăng nhập bằng `?token=` (Playee portal).
+
 ## v6.2.16 (so với v6.2.15)
 
 ### Cần làm khi nâng cấp

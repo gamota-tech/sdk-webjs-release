@@ -1,4 +1,4 @@
-# API và event — Gamota SDK H5 (v6.2.16)
+# API và event — Gamota SDK H5 (v6.2.17)
 
 Dùng chung cho mọi engine. Trong JS: `GMOGameSDK.getInstance().<hàm>()`. Unity gọi qua wrapper C# — xem bảng tương ứng trong [unity-webgl.md](unity-webgl.md).
 
@@ -30,7 +30,7 @@ Dùng chung cho mọi engine. Trong JS: `GMOGameSDK.getInstance().<hàm>()`. Uni
 | `openFanpage()` / `openGroup()` | Mở fanpage / group (link cấu hình từ server) |
 | `trackLevel(level)` | Gửi event `level_up` và `level_up_<level>` |
 | `logEvent(eventName, eventParamsJson)` | Gửi event tracking. `eventParamsJson`: chuỗi JSON object hoặc bỏ trống |
-| `getVersion()` | Version SDK, vd. `"v6.2.16"` |
+| `getVersion()` | Version SDK, vd. `"v6.2.17"` |
 
 Đăng nhập GiG và QR có nút sẵn trong màn đăng nhập (nút QR chỉ hiện khi server bật cho game). Game muốn tự đặt nút "Đăng nhập GiG" thì gọi `goLoginbyGiG()`.
 
